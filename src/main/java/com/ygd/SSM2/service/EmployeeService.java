@@ -2,10 +2,10 @@ package com.ygd.SSM2.service;
 
 import java.util.List;
 
-import com.ygd.SSM2.entity.Employee;
+import com.ygd.SSM2.dto.EmployeeWithDep;
 
 public interface EmployeeService {
 	
-   List<Employee> getByPage(Integer page, Integer rows);
+   List<EmployeeWithDep> getByPage(Integer page, Integer rows);
    
 }

@@ -11,4 +11,23 @@
     <result column="emp_email" jdbcType="VARCHAR" property="empEmail" />
     <result column="dep_id" jdbcType="INTEGER" property="depId" />
   </resultMap>
+  
+  <sql id="empWithDep">
+  	emp_id AS empId,
+  	emp_name AS empName,
+  	emp_sex AS empSex,
+  	emp_email AS empEmail,
+  	dep_name AS depName
+  </sql>
+  
+  <select id="getEmpWithDep" resultType="com.ygd.SSM2.dto.EmployeeWithDep">
+  	SELECT
+  		<include refid="empWithDep"></include>
+  	FROM
+  		employee e
+  	LEFT JOIN
+  		department d
+  	ON
+  		e.dep_id = d.dep_id 		
+  </select>
 </mapper>

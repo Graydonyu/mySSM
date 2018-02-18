@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
-import com.ygd.SSM2.entity.Employee;
+import com.ygd.SSM2.dto.EmployeeWithDep;
 import com.ygd.SSM2.mapper.EmployeeMapper;
 import com.ygd.SSM2.service.EmployeeService;
 
@@ -16,11 +16,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeMapper employeeDao;
 
 	@Override
-	public List<Employee> getByPage(Integer page, Integer rows) {
+	public List<EmployeeWithDep> getByPage(Integer page, Integer rows) {
 		
 		PageHelper.startPage(page, rows);
 		
-		List<Employee> listemp = employeeDao.selectAll();
+		List<EmployeeWithDep> listemp = employeeDao.getEmpWithDep();
 		
 		return listemp;
 	}

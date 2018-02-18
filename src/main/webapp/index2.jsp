@@ -28,6 +28,67 @@
 <script
 	src="${APP_PATH}/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <body>
+	<!-- Modal -->
+	<div class="modal fade" id="addEmpModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">新增员工</h4>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+							<div class="col-sm-10">
+								<input type="name" class="form-control" id="inputName"
+									placeholder="Name">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+							<div class="col-sm-10">
+								<input type="email" class="form-control" id="inputEmail"
+									placeholder="Email">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">Gender</label>
+							<div class="col-sm-10">
+								<label class="radio-inline"> <input type="radio"
+									name="inlineRadioOptions" id="inlineRadio1" value="option1">
+									男
+								</label> <label class="radio-inline"> <input type="radio"
+									name="inlineRadioOptions" id="inlineRadio2" value="option2">
+									女
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputEmail3" class="col-sm-2 control-label">Department</label>
+							<div class="col-sm-4">
+								<select class="form-control">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4">
@@ -36,8 +97,8 @@
 		</div>
 		<div class="row">
 			<div class="col-md-4 col-md-offset-8 text-right">
-				<button type="button" class="btn btn-primary">新增</button>
-				<button type="button" class="btn btn-danger">删除</button>
+				<button type="button" class="btn btn-primary" id="addEmp">新增</button>
+				<button type="button" class="btn btn-danger" id="deleEmp">删除</button>
 			</div>
 		</div>
 		<div class="row">
@@ -68,6 +129,12 @@
 	<script type="text/javascript">
 		$(function() {
 			to_page(1);
+
+			$("#addEmp").on("click", function() {
+				$("#addEmpModal").modal({
+					backdrop : false
+				});
+			})
 		})
 
 		function to_page(page) {
@@ -134,17 +201,17 @@
 
 			})
 
-			if(!pageInfo.isLastPage){
+			if (!pageInfo.isLastPage) {
 				ul.append(endPageLi);
-				endPageLi.on("click",function(){
+				endPageLi.on("click", function() {
 					to_page(pageInfo.pages);
 				})
 			}
-			
-			if(pageInfo.hasNextPage){
+
+			if (pageInfo.hasNextPage) {
 				ul.append(nextPageLi);
-				nextPageLi.on("click",function(){
-					to_page(pageInfo.pageNum+1);
+				nextPageLi.on("click", function() {
+					to_page(pageInfo.pageNum + 1);
 				})
 			}
 
@@ -180,8 +247,8 @@
 						"class", "text-center");
 				var empSexTd = $("<td></td>").append(item.empSex).attr("class",
 						"text-center");
-				var empDepTd = $("<td></td>").append(item.depId).attr("class",
-						"text-center");
+				var empDepTd = $("<td></td>").append(item.depName).attr(
+						"class", "text-center");
 				var empEdit = $("<button></button>").append("编辑").attr("class",
 						"btn btn-info btn-sm");
 				var empDel = $("<button></button>").append("删除").attr("class",

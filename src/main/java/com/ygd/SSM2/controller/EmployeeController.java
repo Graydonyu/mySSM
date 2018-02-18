@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.ygd.SSM2.entity.Employee;
+import com.ygd.SSM2.dto.EmployeeWithDep;
 import com.ygd.SSM2.service.EmployeeService;
 import com.ygd.SSM2.util.Msg;
 
@@ -44,11 +44,11 @@ public class EmployeeController {
 	*/  
 	@RequestMapping("/allList")
 	public String getAllList(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "rows", defaultValue = "10") Integer rows, @ModelAttribute("employee")Employee employee,Model model) {
+			@RequestParam(value = "rows", defaultValue = "10") Integer rows, @ModelAttribute("employee")EmployeeWithDep employee,Model model) {
 
-		List<Employee> emps = employeeService.getByPage(page, rows);
+		List<EmployeeWithDep> emps = employeeService.getByPage(page, rows);
 		
-		PageInfo<Employee> pageInfo = new PageInfo<>(emps);
+		PageInfo<EmployeeWithDep> pageInfo = new PageInfo<>(emps);
 		
 		model.addAttribute("pageInfo", pageInfo);
 		
@@ -67,11 +67,11 @@ public class EmployeeController {
 	@RequestMapping("/emps")
 	@ResponseBody
 	public Msg getListWithJson(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "rows", defaultValue = "10") Integer rows, @ModelAttribute("employee")Employee employee) {
+			@RequestParam(value = "rows", defaultValue = "10") Integer rows, @ModelAttribute("employee")EmployeeWithDep employee) {
 
-		List<Employee> emps = employeeService.getByPage(page, rows);
+		List<EmployeeWithDep> emps = employeeService.getByPage(page, rows);
 		
-		PageInfo<Employee> pageInfo = new PageInfo<>(emps);
+		PageInfo<EmployeeWithDep> pageInfo = new PageInfo<>(emps);
 		
 		return Msg.success().add("pageInfo",pageInfo);
 	}
