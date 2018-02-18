@@ -71,12 +71,7 @@
 						<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">Department</label>
 							<div class="col-sm-4">
-								<select class="form-control">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
+								<select class="form-control" id="depOptions">
 								</select>
 							</div>
 						</div>
@@ -130,7 +125,19 @@
 		$(function() {
 			to_page(1);
 
+			//点击打开模态框
 			$("#addEmp").on("click", function() {
+				
+				$.ajax({
+					url : "${APP_PATH}/Dep/deps",
+					type : "get",
+					success : function(result){
+						
+						build_dep_options(result);
+						
+					}
+				})
+				
 				$("#addEmpModal").modal({
 					backdrop : false
 				});
@@ -152,7 +159,18 @@
 				}
 			})
 		}
+		
+		//构建模态框部门选项
+		function build_dep_options(result){
+			$("#depOptions").empty();
+			
+			$.each(result.extend.deps, function(index, item){
+				var option = $("<option></option>").append(item.depName).attr("value",item.depId).attr("name","depId");
+				option.appendTo("#depOptions");
+			})
+		}
 
+		//构建分页条
 		function build_page_nav(result) {
 			$("#page_nav").empty();
 
