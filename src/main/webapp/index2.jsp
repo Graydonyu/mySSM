@@ -45,25 +45,25 @@
 						<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-10">
-								<input type="name" class="form-control" id="inputName"
+								<input type="name" class="form-control" id="inputName" name="empName"
 									placeholder="Name">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 							<div class="col-sm-10">
-								<input type="email" class="form-control" id="inputEmail"
-									placeholder="Email">
+								<input type="email" class="form-control" id="inputEmail" name="empEmail"
+									placeholder="Email@QQ.com">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">Gender</label>
 							<div class="col-sm-10">
 								<label class="radio-inline"> <input type="radio"
-									name="inlineRadioOptions" id="inlineRadio1" value="option1">
+									name="empSex" id="inlineRadio1" value="男" checked="checked">
 									男
 								</label> <label class="radio-inline"> <input type="radio"
-									name="inlineRadioOptions" id="inlineRadio2" value="option2">
+									name="empSex" id="inlineRadio2" value="女">
 									女
 								</label>
 							</div>
@@ -71,7 +71,7 @@
 						<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">Department</label>
 							<div class="col-sm-4">
-								<select class="form-control" id="depOptions">
+								<select class="form-control" id="depOptions" name="depId">
 								</select>
 							</div>
 						</div>
@@ -79,7 +79,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary">保存</button>
+					<button type="button" class="btn btn-primary" id="saveEmp">保存</button>
 				</div>
 			</div>
 		</div>
@@ -122,25 +122,46 @@
 	</div>
 
 	<script type="text/javascript">
+		var toatlRecord;
+	
 		$(function() {
 			to_page(1);
 
 			//点击打开模态框
 			$("#addEmp").on("click", function() {
-				
+
 				$.ajax({
 					url : "${APP_PATH}/Dep/deps",
 					type : "get",
-					success : function(result){
-						
+					success : function(result) {
+
 						build_dep_options(result);
-						
+
 					}
 				})
-				
+
 				$("#addEmpModal").modal({
 					backdrop : false
 				});
+			})
+
+			//保存员工信息
+			$("#saveEmp").on("click", function() {
+				$.ajax({
+					url : "${APP_PATH}/Employee/addEmp",
+					data : $("#addEmpModal form").serialize(),
+					type : "post",
+					success : function(result){
+						if(result.code == 100){
+							//关闭模态框
+							$("#addEmpModal").modal('toggle');
+							
+							//跳转到最后一页
+							//page只要大于最后一页就会自动查询最后一页
+							to_page(toatlRecord);
+						};
+					}
+				})
 			})
 		})
 
@@ -159,13 +180,14 @@
 				}
 			})
 		}
-		
+
 		//构建模态框部门选项
-		function build_dep_options(result){
+		function build_dep_options(result) {
 			$("#depOptions").empty();
-			
-			$.each(result.extend.deps, function(index, item){
-				var option = $("<option></option>").append(item.depName).attr("value",item.depId).attr("name","depId");
+
+			$.each(result.extend.deps, function(index, item) {
+				var option = $("<option></option>").append(item.depName).attr(
+						"value", item.depId);
 				option.appendTo("#depOptions");
 			})
 		}
@@ -246,6 +268,8 @@
 			$("#page_msg").append(
 					"当前第" + pageMsg.pageNum + "页，总" + pageMsg.pages + "页，总"
 							+ pageMsg.total + "条记录");
+			
+			toatlRecord = pageMsg.total;
 
 		}
 

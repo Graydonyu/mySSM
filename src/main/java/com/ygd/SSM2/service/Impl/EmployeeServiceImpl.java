@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.ygd.SSM2.dto.EmployeeWithDep;
+import com.ygd.SSM2.entity.Employee;
 import com.ygd.SSM2.mapper.EmployeeMapper;
 import com.ygd.SSM2.service.EmployeeService;
 
@@ -23,6 +24,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		List<EmployeeWithDep> listemp = employeeDao.getEmpWithDep();
 		
 		return listemp;
+	}
+
+	@Override
+	public void insertEmp(Employee employee) {
+		employeeDao.insertSelective(employee);
 	}
 
 }

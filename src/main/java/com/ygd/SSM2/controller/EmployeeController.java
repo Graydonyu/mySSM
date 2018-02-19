@@ -11,16 +11,18 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.ygd.SSM2.dto.EmployeeWithDep;
+import com.ygd.SSM2.entity.Employee;
 import com.ygd.SSM2.service.EmployeeService;
 import com.ygd.SSM2.util.Msg;
 
 @Controller
-@RequestMapping("/Employee")
+@RequestMapping(value = "/Employee")
 public class EmployeeController {
 
 	@Autowired
@@ -42,7 +44,7 @@ public class EmployeeController {
 	* @return String 返回类型    
 	* @throws  
 	*/  
-	@RequestMapping("/allList")
+	@RequestMapping(value = "/allList")
 	public String getAllList(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "rows", defaultValue = "10") Integer rows, @ModelAttribute("employee")EmployeeWithDep employee,Model model) {
 
@@ -63,9 +65,9 @@ public class EmployeeController {
 	* @param employee
 	* @return Msg 返回类型    
 	* @throws  
-	*/  
-	@RequestMapping("/emps")
+	*/ 
 	@ResponseBody
+	@RequestMapping(value = "/emps",method = RequestMethod.GET)
 	public Msg getListWithJson(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "rows", defaultValue = "10") Integer rows, @ModelAttribute("employee")EmployeeWithDep employee) {
 
@@ -74,6 +76,15 @@ public class EmployeeController {
 		PageInfo<EmployeeWithDep> pageInfo = new PageInfo<>(emps);
 		
 		return Msg.success().add("pageInfo",pageInfo);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/addEmp",method = RequestMethod.POST)
+	public Msg addEmp(Employee employee){
+		
+		employeeService.insertEmp(employee);
+		
+		return Msg.success();	
 	}
 
 	@ResponseBody
