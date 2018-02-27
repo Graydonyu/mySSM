@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,11 +79,50 @@ public class EmployeeController {
 		return Msg.success().add("pageInfo",pageInfo);
 	}
 	
+	/**  
+	* @Title: addEmp  
+	* @Description: 保存员工
+	* @param employee
+	* @return Msg 返回类型    
+	* @throws  
+	*/  
 	@ResponseBody
 	@RequestMapping(value = "/addEmp",method = RequestMethod.POST)
 	public Msg addEmp(Employee employee){
 		
 		employeeService.insertEmp(employee);
+		
+		return Msg.success();	
+	}
+	
+	/**  
+	* @Title: getEmpById  
+	* @Description: 根据id获取到员工信息
+	* @param empId
+	* @return Msg 返回类型    
+	* @throws  
+	*/  
+	@ResponseBody
+	@RequestMapping(value = "/getEmp/{empId}",method = RequestMethod.GET)
+	public Msg getEmpById(@PathVariable Integer empId){
+		
+		Employee employee = employeeService.getEmployeeById(empId);
+		
+		return Msg.success().add("emp", employee);	
+	}
+	
+	/**  
+	* @Title: updateEmp  
+	* @Description: 根据id更新用户
+	* @param employee
+	* @return Msg 返回类型    
+	* @throws  
+	*/  
+	@ResponseBody
+	@RequestMapping(value = "/updateEmp/{empId}",method = RequestMethod.PUT)
+	public Msg updateEmp(Employee employee){
+		
+		employeeService.updateEmployeeById(employee);
 		
 		return Msg.success();	
 	}

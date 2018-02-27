@@ -11,4 +11,8 @@ public interface EmployeeService {
    
    void insertEmp(Employee employee);
    
+   Employee getEmployeeById(Integer empId);
+   
+   void updateEmployeeById(Employee employee);
+   
 }

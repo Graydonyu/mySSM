@@ -31,4 +31,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeDao.insertSelective(employee);
 	}
 
+	@Override
+	public Employee getEmployeeById(Integer empId) {
+		return employeeDao.selectByPrimaryKey(empId);
+	}
+
+	@Override
+	public void updateEmployeeById(Employee employee) {
+		employeeDao.updateByPrimaryKeySelective(employee);
+	}
+
 }
