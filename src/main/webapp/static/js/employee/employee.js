@@ -8,8 +8,46 @@ var empId;
 $(function() {
 	to_page(1);
 
+	// 保存员工信息
+	$("#saveEmp").on("click", function() {
+
+		$.ajax({
+			url : unit.rootUrl + "/Employee/addEmp",
+			data : $("#addEmpModal form").serialize(),
+			type : "post",
+			success : function(result) {
+				if (result.code == 0) {
+					// 关闭模态框
+					$("#addEmpModal").modal('toggle');
+
+					// 跳转到最后一页
+					// page只要大于最后一页就会自动查询最后一页
+					to_page(toatlRecord);
+				}
+				;
+			}
+		})
+	})
+
 	$("#addEmpForm").validate({
-		debug : true
+		/*rules : {
+			empName : {
+				required : true,
+				minlength : 5
+			},
+			empEmail:{
+				required : true,
+			}
+		},
+		messages : {
+			empName : {
+				required : "没有填写密码",
+				minlength : "taixiao"
+			},
+			empEmail:{
+				required : "???",
+			}
+		}*/
 	});
 
 	// 设置点击全选与全不选
@@ -23,10 +61,7 @@ $(function() {
 	})
 
 	// 点击打开更新员工模态框
-	$("#emp_tbody").on(
-			"click",
-			".edit_btn",
-			function() {
+	$("#emp_tbody").on("click",".edit_btn",function() {
 
 				empId = $(this).parents("tr").attr("emp_id");
 
@@ -39,7 +74,7 @@ $(function() {
 					type : "get",
 					success : function(result) {
 						var emp = result.extend.emp;
-						if (result.code == 100) {
+						if (result.code == 0) {
 							$("#updateName").val(emp.empName);
 							$("#updateEmail").val(emp.empEmail);
 							$("#updateEmpModal input[name = empSex]").val(
@@ -67,9 +102,10 @@ $(function() {
 			data : $("#updateEmpModal form").serialize(),
 			type : "put",
 			success : function(result) {
-				if (result.code == 100) { // 关闭模态框
+				if (result.code == 0) { // 关闭模态框
 					$("#updateEmpModal").modal('toggle'); // 跳转到最后一页 //
 
+					//刷新当前页
 					to_page(currentPage);
 				}
 			}
@@ -86,33 +122,68 @@ $(function() {
 			backdrop : false
 		});
 	})
-
-	// 保存员工信息
-	$("#saveEmp").on("click", function() {
-
-		$.ajax({
-			url : unit.rootUrl + "/Employee/addEmp",
-			data : $("#addEmpModal form").serialize(),
-			type : "post",
-			success : function(result) {
-				if (result.code == 100) {
-					// 关闭模态框
-					$("#addEmpModal").modal('toggle');
-
-					// 跳转到最后一页
-					// page只要大于最后一页就会自动查询最后一页
-					to_page(toatlRecord);
+	
+	//点击删除员工
+	$("#emp_tbody").on("click",".delete_btn",function(){
+		
+		var empName = $(this).parents("tr").find("td:eq(2)").text();
+		
+		if(confirm("是否删除" + empName + "？")){
+			var empIds = $(this).parents("tr").attr("emp_id");
+			
+			$.ajax({
+				url	: unit.rootUrl + "/Employee/deleteEmp/"+empIds,
+				type : "delete",
+				success : function(result){
+					if(result.code == 0){
+						alert(result.msg);
+						
+						//刷新当前页
+						to_page(currentPage);
+					}else{
+						alert(result.msg);
+					}
 				}
-				;
-			}
+			})
+		}
+		
+	})
+	
+	//批量删除
+	$("#deleEmp").on("click",function(){
+		var empNames = "";
+		
+		$.each($(".check_item:checked"),function(){
+			empNames += $(this).parents("tr").find("td:eq(2)").text()+",";
 		})
-
-		/*
-		 * $("#addEmpForm").validate({ submitHandler : function(form) {
-		 * alert("????"); }, rules : { empName : { required : true } }, messages : {
-		 * empName : { required : "用户名不能为空" } } });
-		 */
-
+		
+		empNames = empNames.substring(0,empNames.length-1);
+		
+		if(confirm("确定要删除【"+empNames+"】吗？")){
+			
+			var empIds = "";
+			
+			$.each($(".check_item:checked"),function(){
+				empIds += $(this).parents("tr").attr("emp_id")+"-";
+			})
+			
+			empIds = empIds.substring(0,empIds.length-1);
+			
+			$.ajax({
+				url	:	unit.rootUrl+"/Employee/deleteEmp/"+empIds,
+				type : "delete",
+				success : function(result){
+					if(result.code == 0){
+						alert(result.msg);
+						
+						//刷新当前页
+						to_page(currentPage);
+					}else{
+						alert(result.msg);
+					}
+				}
+			})
+		}
 	})
 })
 

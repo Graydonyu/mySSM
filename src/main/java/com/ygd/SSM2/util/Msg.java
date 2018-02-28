@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class Msg {
 	
-	//状态码，100成功，200失败
+	//状态码，0成功，1失败
 	private int code;
 	
 	//信息提示
@@ -22,19 +22,31 @@ public class Msg {
 	//返回数据
 	private Map<String, Object> extend = new HashMap<String, Object>();
 	
+	/**  
+	* @Title: success  
+	* @Description: 成功返回信息
+	* @return Msg 返回类型    
+	* @throws  
+	*/  
 	public static Msg success(){
 		Msg result = new Msg();
 		
-		result.setCode(100);
+		result.setCode(0);
 		result.setMsg("处理成功！");
 		
 		return result;
 	}
 	
+	/**  
+	* @Title: fail  
+	* @Description: 失败返回信息
+	* @return Msg 返回类型    
+	* @throws  
+	*/  
 	public static Msg fail(){
 		Msg result = new Msg();
 		
-		result.setCode(200);
+		result.setCode(1);
 		result.setMsg("处理失败！");
 		
 		return result;

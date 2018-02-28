@@ -28,6 +28,6 @@
   	LEFT JOIN
   		department d
   	ON
-  		e.dep_id = d.dep_id 		
+  		e.dep_id = d.dep_id	
   </select>
 </mapper>

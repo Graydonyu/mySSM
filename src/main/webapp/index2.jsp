@@ -181,8 +181,9 @@
 		</div>
 	</div>
 	
-	<script type="text/javascript" src="${APP_PATH }/static/js/jquery-validate.min.js"></script>
-	<script type="text/javascript" src="${APP_PATH }/static/js/jquery-validate.js"></script>
+	<%-- <script type="text/javascript" src="${APP_PATH }/static/js/jquery-validate.min.js"></script> --%>
+	<%-- <script type="text/javascript" src="${APP_PATH }/static/js/jquery-validate.js"></script> --%>
+	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 	<!-- 导入自定义的js文件 -->
 	<script type="text/javascript" src="${APP_PATH }/static/js/employee/employee.js"></script>
 	<script type="text/javascript" src="${APP_PATH }/static/js/unit.js"></script>
