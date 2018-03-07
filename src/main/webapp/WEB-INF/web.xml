@@ -6,7 +6,7 @@
     <display-name>SSM2</display-name>
     
     <welcome-file-list>
-        <welcome-file>index2.jsp</welcome-file>
+        <welcome-file>department.jsp</welcome-file>
     </welcome-file-list>
     
     <!-- system.getproperty("ssm2.root")动态获项目的运行路径 -->

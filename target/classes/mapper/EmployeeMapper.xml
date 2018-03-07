@@ -20,7 +20,13 @@
   	dep_name AS depName
   </sql>
   
-  <select id="getEmpWithDep" resultType="com.ygd.SSM2.dto.EmployeeWithDep">
+  <sql id="search">
+  	<if test="search != ' ' or search != null">
+  		concat('emp_name','dep_name') like '%${search}%'
+  	</if>
+  </sql>
+  
+  <select id="getEmpWithDep" parameterType="string" resultType="com.ygd.SSM2.dto.EmployeeWithDep">
   	SELECT
   		<include refid="empWithDep"></include>
   	FROM
@@ -28,6 +34,9 @@
   	LEFT JOIN
   		department d
   	ON
-  		e.dep_id = d.dep_id	
+  		e.dep_id = d.dep_id
+  	<where>
+  		<include refid="search"></include>
+  	</where>	
   </select>
 </mapper>

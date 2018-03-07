@@ -2,27 +2,27 @@
 var toatlRecord;
 // 当前页码
 var currentPage;
-// 员工id
-var empId;
+// 部门id
+var depId;
 
 $(function() {
 	to_page(1);
 
-	// 保存员工信息
-	$("#saveEmp").on("click", function() {	
-		$("#addEmpForm").submit();
+	// 保存部门信息
+	$("#saveDep").on("click", function() {	
+		$("#addDepForm").submit();
 	})
 
-	$("#addEmpForm").validate({
+	$("#addDepForm").validate({
 		submitHandler : function(form){
 			$.ajax({
-				url : unit.rootUrl + "/Employee/addEmp",
-				data : $("#addEmpModal form").serialize(),
+				url : unit.rootUrl + "/Dep/saveDep",
+				data : $("#addDepModal form").serialize(),
 				type : "post",
 				success : function(result) {
 					if (result.code == 0) {
 						// 关闭模态框
-						$("#addEmpModal").modal('toggle');
+						$("#addDepModal").modal('toggle');
 
 						// 跳转到最后一页
 						// page只要大于最后一页就会自动查询最后一页
@@ -32,25 +32,18 @@ $(function() {
 			})
 		},
 		rules : {
-			empName : {
+			depName : {
 				required : true,
 				remote : {
-					url : unit.rootUrl+"/Employee/validEmpName",
+					url : unit.rootUrl+"/Dep/validDep",
 					type : "get"
 				}
-			},
-			empEmail:{
-				required : true,
 			}
 		},
 		messages : {
-			empName : {
-				required : "请输入员工名",
-				remote : "员工名已存在"
-			},
-			empEmail:{
-				required : "请输入邮箱",
-				email : "邮箱格式不正确"
+			depName : {
+				required : "请输入部门名",
+				remote : "部门名已存在"
 			}
 		}
 	});
@@ -59,79 +52,53 @@ $(function() {
 	$("#check_all").on("click", function() {
 		$(".check_item").prop("checked", $(this).prop("checked"));
 	})
-	$("#emp_tbody").on("click", ".check_item", function() {
+	$("#dep_tbody").on("click", ".check_item", function() {
 		var flag = $(".check_item:checked").length == $(".check_item").length;
 		$("#check_all").prop("checked", flag);
 
 	})
 
 	// 点击打开更新员工模态框
-	$("#emp_tbody").on("click",".edit_btn",function() {
+	$("#dep_tbody").on("click",".edit_btn",function() {
 		
-		$("#updateEmpModal form")[0].reset();
+		$("#updateDepModal form")[0].reset();		
 
-		empId = $(this).parents("tr").attr("emp_id");
+		depId = $(this).parents("tr").attr("dep_id");
 
-		// 获取部门列表				
-		var getDeps = $.ajax({
-			url : unit.rootUrl + "/Dep/deps",
+		// 获取到部门数据并显示到模态框上
+		$.ajax({
+			url : unit.rootUrl + "/Dep/getDep/" + depId,
 			type : "get",
 			success : function(result){
-						
-			}
-		})
-
-		// 获取到该员工数据并显示到模态框上
-		var getEmpData = $.ajax({
-			url : unit.rootUrl + "/Employee/getEmp/" + empId,
-			type : "get",
-			success : function(result){
-						
-			}
-		})
-				
-		$.when(getDeps,getEmpData).done(function(result1,result2){
-			$("#updateDepOptions").empty();
-					
-			var deps = result1[0].extend.deps;
-					
-			$.each(deps, function(index, item) {
-				var option = $("<option></option>").append(item.depName).prop(
-						"value", item.depId);
-				option.appendTo("#updateDepOptions");
-			})
-					
-			var emp = result2[0].extend.emp;
-				if (result2[0].code == 0) {
-					$("#updateName").val(emp.empName);
-					$("#updateEmail").val(emp.empEmail);
-					$("#updateEmpModal input[name = empSex]").val([ emp.empSex ]);
-					$("#updateDepOptions").val(emp.depId);
+				var dep = result.extend.dep;
+				if (result.code == 0) {
+					$("#updateName").val(dep.depName);
 				}
-		});
+			}
+		})
 
-		$("#updateEmpModal").modal({
+		$("#updateDepModal").modal({
 			backdrop : false
 		});
 	})
 
 	// 更新员工信息
-	$("#updateEmp").on("click", function() {
+	$("#updateDep").on("click", function() {
 
-		$("#updateEmpForm").submit();
+		$("#updateDepForm").submit();
 
 	})
 	
-	$("#updateEmpForm").validate({
+	$("#updateDepForm").validate({
 		submitHandler : function(form){
 			$.ajax({
-				url : unit.rootUrl + "/Employee/updateEmp/" + empId,
-				data : $("#updateEmpModal form").serialize(),
+				url : unit.rootUrl + "/Dep/updateDep/" + depId,
+				data : $("#updateDepModal form").serialize(),
 				type : "put",
 				success : function(result) {
 					if (result.code == 0) { 
 						// 关闭模态框
-						$("#updateEmpModal").modal('toggle'); 
+						$("#updateDepModal").modal('toggle'); 
 
 						//刷新当前页
 						to_page(currentPage);
@@ -140,56 +107,47 @@ $(function() {
 			})
 		},
 		rules : {
-			empName : {
+			depName : {
 				required : true,
 				remote : {
-					url : unit.rootUrl+"/Employee/validEmpName",
+					url : unit.rootUrl+"/Dep/validDep",
 					type : "get",
 					data : {
-						empId : function(){
-							return empId;
+						depId : function(){
+							return depId;
 						}
 					}
 				}
-			},
-			empEmail:{
-				required : true,
 			}
 		},
 		messages : {
-			empName : {
-				required : "请输入员工名",
-				remote : "员工名已存在"
-			},
-			empEmail:{
-				required : "请输入邮箱",
-				email : "邮箱格式不正确"
+			depName : {
+				required : "请输入部门名",
+				remote : "部门名已存在"
 			}
 		}
 	});
 
 	// 点击打开新增员工模态框
-	$("#addEmp").on("click", function() {
+	$("#addDep").on("click", function() {
 		
-		$("#addEmpModal form")[0].reset();
+		$("#addDepModal form")[0].reset();
 
-		getDepOptions("#depOptions");
-
-		$("#addEmpModal").modal({
+		$("#addDepModal").modal({
 			backdrop : false
 		});
 	})
 	
-	//点击删除员工
-	$("#emp_tbody").on("click",".delete_btn",function(){
+	//点击删除部门
+	$("#dep_tbody").on("click",".delete_btn",function(){
 		
-		var empName = $(this).parents("tr").find("td:eq(2)").text();
+		var depName = $(this).parents("tr").find("td:eq(2)").text();
 		
-		if(confirm("是否删除" + empName + "？")){
-			var empIds = $(this).parents("tr").attr("emp_id");
+		if(confirm("是否删除" + depName + "？")){
+			var depIds = $(this).parents("tr").attr("dep_id");
 			
 			$.ajax({
-				url	: unit.rootUrl + "/Employee/deleteEmp/"+empIds,
+				url	: unit.rootUrl + "/Dep/deleteDep/"+depIds,
 				type : "delete",
 				success : function(result){
 					if(result.code == 0){
@@ -207,27 +165,27 @@ $(function() {
 	})
 	
 	//批量删除
-	$("#deleEmp").on("click",function(){
-		var empNames = "";
+	$("#deleDep").on("click",function(){
+		var depNames = "";
 		
 		$.each($(".check_item:checked"),function(){
-			empNames += $(this).parents("tr").find("td:eq(2)").text()+",";
+			depNames += $(this).parents("tr").find("td:eq(2)").text()+",";
 		})
 		
-		empNames = empNames.substring(0,empNames.length-1);
+		depNames = depNames.substring(0,depNames.length-1);
 		
-		if(confirm("确定要删除【"+empNames+"】吗？")){
+		if(confirm("确定要删除【"+depNames+"】吗？")){
 			
-			var empIds = "";
+			var depIds = "";
 			
 			$.each($(".check_item:checked"),function(){
-				empIds += $(this).parents("tr").attr("emp_id")+"-";
+				depIds += $(this).parents("tr").attr("dep_id")+"-";
 			})
 			
-			empIds = empIds.substring(0,empIds.length-1);
+			depIds = depIds.substring(0,depIds.length-1);
 			
 			$.ajax({
-				url	:	unit.rootUrl+"/Employee/deleteEmp/"+empIds,
+				url	:	unit.rootUrl+"/Dep/deleteDep/"+depIds,
 				type : "delete",
 				success : function(result){
 					if(result.code == 0){
@@ -246,7 +204,7 @@ $(function() {
 
 function to_page(page) {
 	$.ajax({
-		url : unit.rootUrl + "/Employee/emps",
+		url : unit.rootUrl + "/Dep/depList",
 		data : "page=" + page,
 		type : "get",
 		success : function(result) {
@@ -362,37 +320,31 @@ function build_page_msg(result) {
 
 // 解析数据填充表格
 function build_table_data(result) {
-	$("#emp_table tbody").empty();
+	$("#dep_tbody").empty();
+	
+	var deps = result.extend.pageInfo.list;
 
-	var emps = result.extend.pageInfo.list;
+	$.each(deps, function(index, item) {
+		
+		var checkboxTd = $("<td><input type='checkbox' class='check_item'/></td>").attr("class",
+				"text-center");
 
-	$.each(emps, function(index, item) {
-
-		var checkboxTd = $(
-				"<td><input type='checkbox' class='check_item'/></td>").attr(
-				"class", "text-center");
-
-		var empIdTd = $("<td></td>").append(item.empId).attr("class",
+		var depIdTd = $("<td></td>").append(item.depId).attr("class",
 				"text-center");
-		var empNameTd = $("<td></td>").append(item.empName).attr("class",
+		var depNameTd = $("<td></td>").append(item.depName).attr("class",
 				"text-center");
-		var empEmailTd = $("<td></td>").append(item.empEmail).attr("class",
-				"text-center");
-		var empSexTd = $("<td></td>").append(item.empSex).attr("class",
-				"text-center");
-		var empDepTd = $("<td></td>").append(item.depName).attr("class",
-				"text-center");
-		var empEdit = $("<button></button>").append("编辑").attr("class",
+		var empSizeTd = $("<td></td>").append("13").attr("class",
+		"text-center");
+		var depEdit = $("<button></button>").append("编辑").attr("class",
 				"btn btn-info btn-sm edit_btn");
-		var empDel = $("<button></button>").append("删除").attr("class",
+		var depDel = $("<button></button>").append("删除").attr("class",
 				"btn btn-danger btn-sm delete_btn");
-		var empButTd = $("<td></td>").append(empEdit).append("&nbsp;").append(
-				empDel).attr("class", "text-center");
+		var depButTd = $("<td></td>").append(depEdit).append("&nbsp;").append(
+				depDel).attr("class", "text-center");
 
-		$("<tr></tr>").append(checkboxTd).append(empIdTd).append(empNameTd)
-				.append(empEmailTd).append(empSexTd).append(empDepTd).append(
-						empButTd).attr("emp_id", item.empId).appendTo(
-						"#emp_table tbody");
+		$("<tr></tr>").append(checkboxTd).append(depIdTd).append(depNameTd)
+				.append(empSizeTd).append(depButTd).attr("dep_id", item.depId).appendTo(
+						"#dep_tbody");
 
 	})
 }

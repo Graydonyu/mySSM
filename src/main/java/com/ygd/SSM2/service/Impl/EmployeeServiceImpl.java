@@ -12,6 +12,7 @@ import com.ygd.SSM2.mapper.EmployeeMapper;
 import com.ygd.SSM2.service.EmployeeService;
 
 import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -56,6 +57,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void deleteItem(Integer empId) {
 		employeeDao.deleteByPrimaryKey(empId);
+	}
+
+	@Override
+	public Integer getEmpNameCount(String empName,Integer empId) {
+		Example example = new Example(Employee.class);
+		
+		Criteria criteria = example.createCriteria();
+		
+		criteria.andEqualTo("empName",empName);
+		
+		if(empId != null){
+			criteria.andNotEqualTo("empId", empId);
+		}
+		
+		return employeeDao.selectCountByExample(example);
 	}
 
 }

@@ -57,5 +57,13 @@ public interface EmployeeService {
 	* @throws  
 	*/  
 	void deleteItem(Integer empId);
+
+	/**  
+	* @Title: getEmpNameCount  
+	* @Description: TODO
+	* @param empName void 返回类型    
+	* @throws  
+	*/  
+	Integer getEmpNameCount(String empName,Integer empId);
    
 }
