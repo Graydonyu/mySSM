@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.ygd.SSM2.entity.Department;
 import com.ygd.SSM2.service.DepartmentService;
+import com.ygd.SSM2.service.EmployeeService;
 import com.ygd.SSM2.util.Msg;
 
 @Controller
@@ -27,6 +28,9 @@ public class DepartmentController {
 
 	@Autowired
 	private DepartmentService departmentService;
+	
+	@Autowired
+	private EmployeeService employeeService;
 
 	/**  
 	* @Title: getAllDep  
@@ -54,11 +58,21 @@ public class DepartmentController {
 	@ResponseBody
 	@RequestMapping(value = "/depList", method = RequestMethod.GET)
 	public Msg getDepByPage(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "rows", defaultValue = "10") Integer rows) {
-
-		List<Department> deps = departmentService.getDepByPage(page,rows);
+			@RequestParam(value = "rows", defaultValue = "10") Integer rows,
+			@RequestParam(value = "search",required = false)String search) {
 		
-		PageInfo<Department> pageInfo = new PageInfo<>(deps);
+		List<Department> depList = new ArrayList<Department>();
+
+		List<Department> deps = departmentService.getDepByPage(page,rows,search);
+		
+		//查询每个部门的人数
+		for(Department dep:deps){
+			Integer empSize = employeeService.getEmpCount(dep.getDepId());
+			dep.setEmpSize(empSize);
+			depList.add(dep);
+		}
+		
+		PageInfo<Department> pageInfo = new PageInfo<>(depList);
 
 		return Msg.success().add("pageInfo", pageInfo);
 	}

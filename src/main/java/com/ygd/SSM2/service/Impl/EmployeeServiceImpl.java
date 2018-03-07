@@ -74,4 +74,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.selectCountByExample(example);
 	}
 
+	@Override
+	public Integer getEmpCount(Integer depId) {
+		
+		Example example = new Example(Employee.class);
+		
+		example.createCriteria().andEqualTo("depId", depId);
+		
+		return employeeDao.selectCountByExample(example);
+	}
+
 }

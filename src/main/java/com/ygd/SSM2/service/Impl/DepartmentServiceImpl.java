@@ -30,11 +30,19 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public List<Department> getDepByPage( Integer page, Integer rows) {
+	public List<Department> getDepByPage( Integer page, Integer rows, String search) {
 		
 		PageHelper.startPage(page,rows);
 		
-		List<Department> list = departmentMapper.selectAll();
+		Example example = new Example(Department.class);
+		Criteria criteria = example.createCriteria();
+		
+		if(search != null && search != ""){
+			search = "%"+search+"%";
+			criteria.andLike("depName", search);
+		}
+		
+		List<Department> list = departmentMapper.selectByExample(example);
 		
 		return list;
 		

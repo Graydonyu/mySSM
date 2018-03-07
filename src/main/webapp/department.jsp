@@ -116,8 +116,8 @@
 			<div class="col-md-8 text-right">
 				<form class="form-inline">				
 					<div class="input-group">
-						<input type="text" class="form-control">
-						<div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+						<input type="text" class="form-control" id="search_val" placeholder="可根据部门名查询">
+						<div class="input-group-addon" id="search"><i class="glyphicon glyphicon-search"></i></div>
 					</div>					
 					<button type="button" class="btn btn-primary" id="addDep">新增</button>
 					<button type="button" class="btn btn-danger" id="deleDep">删除</button>

@@ -27,7 +27,7 @@ public interface DepartmentService {
 	* @return List<Department> 返回类型    
 	* @throws  
 	*/  
-	public List<Department> getDepByPage(Integer page, Integer rows);
+	public List<Department> getDepByPage(Integer page, Integer rows,String search);
 
 	/**  
 	* @Title: insertDep  

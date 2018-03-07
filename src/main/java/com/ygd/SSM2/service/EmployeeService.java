@@ -65,5 +65,14 @@ public interface EmployeeService {
 	* @throws  
 	*/  
 	Integer getEmpNameCount(String empName,Integer empId);
+
+	/**  
+	* @Title: getEmpCount  
+	* @Description: 获取该部门下的人数
+	* @param depName
+	* @return Integer 返回类型    
+	* @throws  
+	*/  
+	Integer getEmpCount(Integer depId);
    
 }

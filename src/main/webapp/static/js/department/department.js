@@ -7,6 +7,11 @@ var depId;
 
 $(function() {
 	to_page(1);
+	
+	//点击搜索
+	$("#search").on("click",function(){
+		to_page(1);
+	})
 
 	// 保存部门信息
 	$("#saveDep").on("click", function() {	
@@ -131,7 +136,7 @@ $(function() {
 	// 点击打开新增员工模态框
 	$("#addDep").on("click", function() {
 		
-		$("#addDepModal form").data('bootstrapValidator').resetForm();
+		$("#addDepModal form")[0].reset();
 
 		$("#addDepModal").modal({
 			backdrop : false
@@ -203,9 +208,18 @@ $(function() {
 })
 
 function to_page(page) {
+	
+	var search = $("#search_val").val().trim();
+	
+	var data = "page="+page;
+	
+	if(search != ""){
+		data += "&search=" + search;
+	}
+	
 	$.ajax({
 		url : unit.rootUrl + "/Dep/depList",
-		data : "page=" + page,
+		data : data,
 		type : "get",
 		success : function(result) {
 
@@ -333,7 +347,7 @@ function build_table_data(result) {
 				"text-center");
 		var depNameTd = $("<td></td>").append(item.depName).attr("class",
 				"text-center");
-		var empSizeTd = $("<td></td>").append("13").attr("class",
+		var empSizeTd = $("<td></td>").append(item.empSize+"人").attr("class",
 		"text-center");
 		var depEdit = $("<button></button>").append("编辑").attr("class",
 				"btn btn-info btn-sm edit_btn");

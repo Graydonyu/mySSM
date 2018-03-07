@@ -1,9 +1,17 @@
-﻿package com.ygd.SSM2.entity;
+package com.ygd.SSM2.entity;
+
+import java.io.Serializable;
 
 import javax.persistence.*;
 
-public class Department {
-    @Id
+import lombok.Data;
+
+@Data
+public class Department implements Serializable{
+    @Transient
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @Column(name = "dep_id")
     private Integer depId;
 
@@ -12,36 +20,7 @@ public class Department {
      */
     @Column(name = "dep_name")
     private String depName;
-
-    /**
-     * @return dep_id
-     */
-    public Integer getDepId() {
-        return depId;
-    }
-
-    /**
-     * @param depId
-     */
-    public void setDepId(Integer depId) {
-        this.depId = depId;
-    }
-
-    /**
-     * 获取部门名称
-     *
-     * @return dep_name - 部门名称
-     */
-    public String getDepName() {
-        return depName;
-    }
-
-    /**
-     * 设置部门名称
-     *
-     * @param depName 部门名称
-     */
-    public void setDepName(String depName) {
-        this.depName = depName;
-    }
+    
+    @Transient
+    private Integer empSize;
 }
