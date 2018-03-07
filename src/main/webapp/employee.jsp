@@ -34,7 +34,7 @@
 	</style>
 <body>
 	<!-- updateModal -->
-	<div class="modal fade" id="updateEmpModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="updateEmpModal" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -91,7 +91,7 @@
 	</div>
 	
 	<!-- addModal -->
-	<div class="modal fade" id="addEmpModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="addEmpModal" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -166,8 +166,8 @@
 			<div class="col-md-8 text-right">
 				<form class="form-inline">				
 					<div class="input-group">
-						<input type="text" class="form-control">
-						<div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+						<input type="text" class="form-control" id="search_val" placeholder="可根据员工名、部门名、性别、邮箱查询">
+						<div class="input-group-addon" id="search"><i class="glyphicon glyphicon-search"></i></div>
 					</div>					
 					<button type="button" class="btn btn-primary" id="addEmp">新增</button>
 					<button type="button" class="btn btn-danger" id="deleEmp">删除</button>

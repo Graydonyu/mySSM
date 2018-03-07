@@ -21,12 +21,12 @@
   </sql>
   
   <sql id="search">
-  	<if test="search != ' ' or search != null">
-  		concat('emp_name','dep_name') like '%${search}%'
+  	<if test="_parameter != ' ' and _parameter != null">
+  		concat(emp_name,dep_name,emp_sex,emp_email) like '%${_parameter}%'
   	</if>
   </sql>
   
-  <select id="getEmpWithDep" parameterType="string" resultType="com.ygd.SSM2.dto.EmployeeWithDep">
+  <select id="getEmpWithDep" parameterType="java.lang.String" resultType="com.ygd.SSM2.dto.EmployeeWithDep">
   	SELECT
   		<include refid="empWithDep"></include>
   	FROM

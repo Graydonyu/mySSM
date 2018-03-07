@@ -48,11 +48,11 @@ public class EmployeeController {
 			@RequestParam(value = "rows", defaultValue = "10") Integer rows,
 			@ModelAttribute("employee") EmployeeWithDep employee, Model model) {
 
-		List<EmployeeWithDep> emps = employeeService.getByPage(page, rows);
+		/*List<EmployeeWithDep> emps = employeeService.getByPage(page, rows);
 
 		PageInfo<EmployeeWithDep> pageInfo = new PageInfo<>(emps);
 
-		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("pageInfo", pageInfo);*/
 
 		return "employee";
 	}
@@ -70,9 +70,9 @@ public class EmployeeController {
 	@RequestMapping(value = "/emps", method = RequestMethod.GET)
 	public Msg getListWithJson(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "rows", defaultValue = "10") Integer rows,
-			@ModelAttribute("employee") EmployeeWithDep employee) {
+			@RequestParam(value = "search",required = false)String search) {
 
-		List<EmployeeWithDep> emps = employeeService.getByPage(page, rows);
+		List<EmployeeWithDep> emps = employeeService.getByPage(page, rows, search);
 
 		PageInfo<EmployeeWithDep> pageInfo = new PageInfo<>(emps);
 

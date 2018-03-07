@@ -20,11 +20,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeMapper employeeDao;
 
 	@Override
-	public List<EmployeeWithDep> getByPage(Integer page, Integer rows) {
+	public List<EmployeeWithDep> getByPage(Integer page, Integer rows, String search) {
 		
 		PageHelper.startPage(page, rows);
 		
-		List<EmployeeWithDep> listemp = employeeDao.getEmpWithDep();
+		List<EmployeeWithDep> listemp = employeeDao.getEmpWithDep(search);
 		
 		return listemp;
 	}

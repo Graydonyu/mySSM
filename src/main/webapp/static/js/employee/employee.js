@@ -7,6 +7,11 @@ var empId;
 
 $(function() {
 	to_page(1);
+	
+	//点击搜索
+	$("#search").on("click",function(){
+		to_page(1);
+	})
 
 	// 保存员工信息
 	$("#saveEmp").on("click", function() {	
@@ -245,9 +250,17 @@ $(function() {
 })
 
 function to_page(page) {
+	
+	var search = $("#search_val").val().trim();
+	var data = "page="+page;
+	
+	if(search != ""){
+		data = data+"&search="+search;
+	}
+	
 	$.ajax({
 		url : unit.rootUrl + "/Employee/emps",
-		data : "page=" + page,
+		data : data,
 		type : "get",
 		success : function(result) {
 

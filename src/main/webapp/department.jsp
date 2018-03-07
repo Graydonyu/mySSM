@@ -34,7 +34,7 @@
 	</style>
 <body>
 	<!-- updateModal -->
-	<div class="modal fade" id="updateDepModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="updateDepModal" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -66,7 +66,7 @@
 	</div>
 
 	<!-- addModal -->
-	<div class="modal fade" id="addDepModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="addDepModal" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -83,7 +83,7 @@
 							<label for="inputEmail3" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-10">
 								<input type="name" class="form-control required" id="inputName"
-									name="depName" placeholder="Name" />
+									autofocus="autofocus" name="depName" placeholder="Name" />
 							</div>
 						</div>
 						<div class="modal-footer">

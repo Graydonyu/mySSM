@@ -15,7 +15,7 @@ public interface EmployeeService {
 	* @return List<EmployeeWithDep> 返回类型    
 	* @throws  
 	*/  
-	List<EmployeeWithDep> getByPage(Integer page, Integer rows);
+	List<EmployeeWithDep> getByPage(Integer page, Integer rows, String search);
    
    /**  
 	* @Title: insertEmp  

@@ -131,7 +131,7 @@ $(function() {
 	// 点击打开新增员工模态框
 	$("#addDep").on("click", function() {
 		
-		$("#addDepModal form")[0].reset();
+		$("#addDepModal form").data('bootstrapValidator').resetForm();
 
 		$("#addDepModal").modal({
 			backdrop : false
