@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygd.SSM2.mapper.ManagerMapper">
+  <resultMap id="BaseResultMap" type="com.ygd.SSM2.entity.Manager">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="man_id" jdbcType="INTEGER" property="manId" />
+    <result column="man_name" jdbcType="VARCHAR" property="manName" />
+    <result column="man_password" jdbcType="VARCHAR" property="manPassword" />
+    <result column="man_level" jdbcType="CHAR" property="manLevel" />
+  </resultMap>
+</mapper>
