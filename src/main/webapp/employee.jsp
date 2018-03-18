@@ -154,14 +154,16 @@
 			<div class="col-md-4 text-center">
 				<h1>员工列表</h1>
 			</div>
+			<div class="col-md-4 text-right">
+				<ul class="list-inline" style="margin-top:15px;">
+  					<li><h4><b>manager</b></h4></li>
+  					<li><a>退出</a></li>
+				</ul>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-				<ul class="list-inline">
-  					<li><a href="${APP_PATH }/department.jsp"><button type="button" class="btn text-primary">部门管理</button></a></li>
-  					<li><h4><b>123</b></h4></li>
-  					<li><a>退出</a></li>
-				</ul>
+				<a href="${APP_PATH }/department.jsp"><button type="button" class="btn text-primary">部门管理</button></a>
 			</div>
 			<div class="col-md-8 text-right">
 				<form class="form-inline">				

@@ -10,4 +10,5 @@
     <result column="man_password" jdbcType="VARCHAR" property="manPassword" />
     <result column="man_level" jdbcType="CHAR" property="manLevel" />
   </resultMap>
+  
 </mapper>

@@ -12,7 +12,7 @@ import com.ygd.SSM2.entity.Manager;
 public interface ManagerService {
 	public void insertManager(Manager manager);
 	
-	public void deleteManagerBatch(int[] manIds);
+	public void deleteManagerBatch(List<Integer> manIds);
 	
 	public void deleteManager(Integer manId);
 	

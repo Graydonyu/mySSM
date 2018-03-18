@@ -34,9 +34,11 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public void deleteManagerBatch(int[] manIds) {
+	public void deleteManagerBatch(List<Integer> manIds) {
 		
 		Example example = new Example(Manager.class);
+		
+		example.createCriteria().andIn("manId", manIds);
 		
 		managerMapper.deleteByExample(example);
 	}

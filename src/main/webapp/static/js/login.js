@@ -20,7 +20,7 @@ $().ready(function() {
 		$.ajax({
 			url : unit.rootUrl + "/Manager/login",
 			data : $("#login_form").serialize(),
-			type : "get",
+			type : "post",
 			success : function(result) {
 				if(result.code == 0){
 					window.location.href = unit.rootUrl+"/employee.jsp";
