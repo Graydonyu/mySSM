@@ -61,7 +61,7 @@ public class ManagerController {
 	* @Description: 显示所有管理员列表
 	* @param pageNum
 	* @param pageSize
-	* @param serach
+	* @param search
 	* @return Msg 返回类型    
 	* @throws  
 	*/  
@@ -69,9 +69,9 @@ public class ManagerController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Msg managerListByPage(@RequestParam(value = "pageNum",defaultValue ="1")Integer pageNum,
 			@RequestParam(value = "pageSize",defaultValue ="10")Integer pageSize,
-			@RequestParam(value = "serach",required = false)String serach){
+			@RequestParam(value = "search",required = false)String search){
 		
-		List<Manager> list = managerService.getManagerList(pageNum, pageSize, serach);
+		List<Manager> list = managerService.getManagerList(pageNum, pageSize, search);
 		
 		PageInfo<Manager> pageInfo = new PageInfo<>(list);
 		

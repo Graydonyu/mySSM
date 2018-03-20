@@ -16,6 +16,8 @@
 <link
 	href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css"
 	rel="stylesheet">
+<!-- 引入自定义样式 -->
+<link href="${APP_PATH}/static/css/common.css" rel="stylesheet">
 <!-- 在bootstrap.min.js 之前引入 -->
 <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
 <!-- Bootstrap 核心 JavaScript 文件 -->
@@ -25,12 +27,6 @@
 <!-- <script type="text/javascript" src="js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="js/message.js"></script> -->
 <style type="text/css">
-body {
-	background: url(static/img/8.jpg) no-repeat;
-	background-size: cover;
-	font-size: 16px;
-}
-
 .form {
 	background: rgba(255, 255, 255, 0.2);
 	width: 400px;
@@ -60,17 +56,11 @@ input[type="text"], input[type="password"] {
 .form-title {
 	padding-left: 35px;
 }
-
-.alert { display: none; position: fixed; top: 5%; left: 48%; min-width: 200px; margin-left: -100px; z-index: 99999; padding: 15px; border: 1px solid transparent; border-radius: 4px;
-} .alert-success { color: #3c763d; background-color: #dff0d8; border-color: #d6e9c6;
-} .alert-info { color: #31708f; background-color: #d9edf7; border-color: #bce8f1;
-} .alert-warning { color: #8a6d3b; background-color: #fcf8e3; border-color: #faebcc;
-} .alert-danger { color: #a94442; background-color: #f2dede; border-color: #ebccd1;
-}
 </style>
 <title>员工管理系统-登陆</title>
 </head>
 <body>
+	<!-- 用于显示通知 -->
 	<div class="alert"></div>
 	<!--
 			基础知识：

@@ -53,12 +53,13 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public List<Manager> getManagerList(Integer pageNum,Integer pageSize,String serach) {
+	public List<Manager> getManagerList(Integer pageNum,Integer pageSize,String search) {
 		
 		Example example = new Example(Manager.class);
 		
-		if(serach != null && serach != ""){
-			example.createCriteria().andEqualTo("manName", serach);
+		if(!StringUtils.isBlank(search)){
+			search = "%"+search+"%";
+			example.createCriteria().andLike("manName", search);
 		}
 		
 		PageHelper.startPage(pageNum, pageSize);

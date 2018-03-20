@@ -21,7 +21,9 @@
 	<mvc:default-servlet-handler/>
 	<mvc:annotation-driven />
 	
-	<!-- <mvc:interceptors>
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<!-- 多个拦截器顺序执行 -->
 		<mvc:interceptor>
 			<mvc:mapping path="/Dep/*"/>
 			<mvc:mapping path="/Employee/*"/>
@@ -29,5 +31,5 @@
 			<mvc:exclude-mapping path="/Manager/login"/>
 			<bean class="com.ygd.SSM2.util.LoginInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>
 </beans>

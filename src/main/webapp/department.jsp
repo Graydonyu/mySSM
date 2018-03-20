@@ -27,12 +27,11 @@
 	rel="stylesheet">
 <script
 	src="${APP_PATH}/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-	<style type="text/css">
-		body {
-			background: url(static/img/8.jpg) no-repeat;background-size: cover;font-size: 16px;
-		}
-	</style>
+<!-- 引入自定义样式 -->
+<link href="${APP_PATH}/static/css/common.css" rel="stylesheet">
 <body>
+	<!-- 用于显示通知 -->
+	<div class="alert"></div>
 	<!-- updateModal -->
 	<div class="modal fade" id="updateDepModal" role="dialog"
 		aria-labelledby="myModalLabel">

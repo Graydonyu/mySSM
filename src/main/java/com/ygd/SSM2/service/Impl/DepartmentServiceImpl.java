@@ -7,6 +7,7 @@ package com.ygd.SSM2.service.Impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 		Example example = new Example(Department.class);
 		Criteria criteria = example.createCriteria();
 		
-		if(search != null && search != ""){
+		if(!StringUtils.isBlank(search)){
 			search = "%"+search+"%";
 			criteria.andLike("depName", search);
 		}

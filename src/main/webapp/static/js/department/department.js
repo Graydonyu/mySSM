@@ -231,6 +231,8 @@ function to_page(page) {
 		type : "get",
 		success : function(result) {
 
+			unit.isLogin(result);
+
 			build_table_data(result);
 
 			build_page_msg(result);

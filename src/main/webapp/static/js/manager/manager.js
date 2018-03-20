@@ -25,7 +25,11 @@ $(function() {
 				data : $("#addManModal form").serialize(),
 				type : "post",
 				success : function(result) {
+					
+					unit.isLogin(result);
+					
 					if (result.code == 0) {
+						
 						// 关闭模态框
 						$("#addManModal").modal('toggle');
 
@@ -89,6 +93,9 @@ $(function() {
 			url : unit.rootUrl + "/Manager/getManager/" + manId,
 			type : "get",
 			success : function(result){
+				
+				unit.isLogin(result);
+				
 				var man = result.extend.man;
 				if (result.code == 0) {
 					$("#updateName").val(man.manName);
@@ -114,6 +121,9 @@ $(function() {
 				data : $("#updateManModal form").serialize(),
 				type : "put",
 				success : function(result) {
+					
+					unit.isLogin(result);
+					
 					if (result.code == 0) { 
 						// 关闭模态框
 						$("#updateManModal").modal('toggle'); 
@@ -182,6 +192,9 @@ $(function() {
 				url	: unit.rootUrl + "/Manager/deleteManas/"+manIds,
 				type : "delete",
 				success : function(result){
+					
+					unit.isLogin(result);
+					
 					if(result.code == 0){
 						alert(result.msg);
 						
@@ -226,6 +239,9 @@ $(function() {
 					url	:	unit.rootUrl+"/Manager/deleteManas/"+manIds,
 					type : "delete",
 					success : function(result){
+						
+						unit.isLogin(result);
+						
 						if(result.code == 0){
 							alert(result.msg);
 							
@@ -262,32 +278,16 @@ function to_page(page) {
 		data : data,
 		type : "get",
 		success : function(result) {
-
-			build_table_data(result);
-
-			build_page_msg(result);
-
-			build_page_nav(result);
-		}
-	})
-}
-
-// 获取所有部门并构建模态框部门选项
-function getDepOptions(ele) {
-
-	var getDeps = $.ajax({
-		url : unit.rootUrl + "/Dep/deps",
-		type : "get",
-		success : function(result) {
-
-			$(ele).empty();
 			
-			$.each(result.extend.deps, function(index, item) {
-				var option = $("<option></option>").append(item.depName).prop(
-						"value", item.depId);
-				option.appendTo(ele);
-			})
+			unit.isLogin(result);
 
+			if(result.code == 0){
+				build_table_data(result);
+
+				build_page_msg(result);
+
+				build_page_nav(result);
+			}
 		}
 	})
 }

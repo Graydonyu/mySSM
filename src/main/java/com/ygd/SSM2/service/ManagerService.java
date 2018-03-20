@@ -18,7 +18,7 @@ public interface ManagerService {
 	
 	public void updateManager(Manager manager);
 	
-	public List<Manager> getManagerList(Integer pageNum,Integer pageSize,String serach);
+	public List<Manager> getManagerList(Integer pageNum,Integer pageSize,String search);
 	
 	public Boolean getValidateLogin(String manName,String manPassword);
 	

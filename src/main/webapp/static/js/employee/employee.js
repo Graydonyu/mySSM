@@ -273,6 +273,8 @@ function to_page(page) {
 		data : data,
 		type : "get",
 		success : function(result) {
+			
+			unit.isLogin(result);
 
 			build_table_data(result);
 
