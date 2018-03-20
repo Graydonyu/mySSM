@@ -20,4 +20,14 @@
 	<!-- 两个默认配置 -->
 	<mvc:default-servlet-handler/>
 	<mvc:annotation-driven />
+	
+	<!-- <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/Dep/*"/>
+			<mvc:mapping path="/Employee/*"/>
+			<mvc:mapping path="/Manager/*"/>
+			<mvc:exclude-mapping path="/Manager/login"/>
+			<bean class="com.ygd.SSM2.util.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors> -->
 </beans>

@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>部门列表</title>
+<title>管理员列表</title>
 <!-- web路径问题 
 	不以/开头的相对路径，找资源以当前资源路径为基准，容易出问题
 	以/开头的相对路径，找资源以服务器路径为基准（http：//localshost：8080），需要加上项目名
@@ -34,7 +34,7 @@
 	</style>
 <body>
 	<!-- updateModal -->
-	<div class="modal fade" id="updateDepModal" role="dialog"
+	<div class="modal fade" id="updateManModal" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -43,21 +43,44 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="updateModalLabel">更新部门</h4>
+					<h4 class="modal-title" id="updateModalLabel">更新管理员</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" id="updateDepForm">
+					<form class="form-horizontal" id="updateManForm">
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+							<label for="updateName" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-10">
 								<input type="name" class="form-control" id="updateName"
-									name="depName" autofocus="autofocus" placeholder="Name" />
+									name="manName" autofocus="autofocus" placeholder="管理员名称" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="updatePassword1" class="col-sm-2 control-label">Password</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="updatePassword1"
+									name="manPassword" placeholder="密码" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="updatePassword2" class="col-sm-2 control-label">Password</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="updatePassword2"
+									name="confirm_password" placeholder="确认密码" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="manOptions" class="col-sm-2 control-label">ManLevel</label>
+							<div class="col-sm-2">
+								<select class="form-control" id="manOptions" name="manLevel">
+									<option value="0">0</option>
+									<option value="1">1</option>
+								</select>
 							</div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">关闭</button>
-							<button type="button" class="btn btn-primary" id="updateDep">更新</button>
+							<button type="button" class="btn btn-primary" id="updateMan">更新</button>
 						</div>
 					</form>
 				</div>
@@ -66,7 +89,7 @@
 	</div>
 
 	<!-- addModal -->
-	<div class="modal fade" id="addDepModal" role="dialog"
+	<div class="modal fade" id="addManModal" role="dialog"
 		aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -75,21 +98,44 @@
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="addModalLabel">新增部门</h4>
+					<h4 class="modal-title" id="addModalLabel">新增管理员</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" id="addDepForm">
+					<form class="form-horizontal" id="addManForm">
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+							<label for="updateName" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-10">
-								<input type="name" class="form-control required" id="inputName"
-									autofocus="autofocus" name="depName" placeholder="Name" />
+								<input type="name" class="form-control" id="addName"
+									name="manName" autofocus="autofocus" placeholder="管理员名称" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="updatePassword1" class="col-sm-2 control-label">Password</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="addPassword1"
+									name="manPassword" placeholder="密码" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="updatePassword2" class="col-sm-2 control-label">Password</label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="addPassword2"
+									name="confirm_password" placeholder="确认密码" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="manOptions" class="col-sm-2 control-label">ManLevel</label>
+							<div class="col-sm-4">
+								<select class="form-control" id="manOptions" name="manLevel">
+									<option value="0" selected="selected">初级权限</option>
+									<option value="1">高级权限</option>
+								</select>
 							</div>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">关闭</button>
-							<button type="button" class="btn btn-primary" id="saveDep">保存</button>
+							<button type="button" class="btn btn-primary" id="saveMan">保存</button>
 						</div>
 					</form>
 				</div>
@@ -102,7 +148,7 @@
 				<h1>SSM-CRUD</h1>
 			</div>
 			<div class="col-md-4 text-center">
-				<h1>部门列表</h1>
+				<h1>管理员列表</h1>
 			</div>
 			<div class="col-md-4 text-right">
 				<ul class="list-inline" style="margin-top:15px;">
@@ -113,33 +159,36 @@
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-				<a href="${APP_PATH }/employee.jsp"><button type="button" class="btn text-primary">员工管理</button></a>	
+				<ul class="list-inline" style="margin-top:15px;">
+  					<li><a href="${APP_PATH }/employee.jsp"><button type="button" class="btn text-primary">员工管理</button></a></li>
+  					<li><a href="${APP_PATH }/department.jsp"><button type="button" class="btn text-primary">部门管理</button></a></li>
+				</ul>	
 			</div>
 			<div class="col-md-8 text-right">
 				<form class="form-inline">				
 					<div class="input-group">
-						<input type="text" class="form-control" id="search_val" placeholder="可根据部门名查询">
+						<input type="text" class="form-control" id="search_val" placeholder="可根据管理员名查询">
 						<div class="input-group-addon" id="search"><i class="glyphicon glyphicon-search"></i></div>
 					</div>					
-					<button type="button" class="btn btn-primary" id="addDep">新增</button>
-					<button type="button" class="btn btn-danger" id="deleDep">删除</button>
+					<button type="button" class="btn btn-primary" id="addMan">新增</button>
+					<button type="button" class="btn btn-danger" id="deleMan">删除</button>
 				</form>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<table class="table table-striped table-hover" id="dep_table">
+				<table class="table table-striped table-hover" id="man_table">
 					<thead>
 						<tr>
 							<th class="text-center"><input type="checkbox"
 								id="check_all" /></th>
 							<th class="text-center">#</th>
-							<th class="text-center">depName</th>
-							<th class="text-center">empSize</th>
+							<th class="text-center">manName</th>
+							<th class="text-center">manLevel</th>
 							<th class="text-center">操作</th>
 						</tr>
 					</thead>
-					<tbody id="dep_tbody">
+					<tbody id="man_tbody">
 
 					</tbody>
 				</table>
@@ -155,7 +204,7 @@
 		src="${APP_PATH }/static/js/jquery.validate.min.js"></script>
 	<!-- 导入自定义的js文件 -->
 	<script type="text/javascript"
-		src="${APP_PATH }/static/js/department/department.js"></script>
+		src="${APP_PATH }/static/js/manager/manager.js"></script>
 	<script type="text/javascript" src="${APP_PATH }/static/js/unit.js"></script>
 </body>
 </html>

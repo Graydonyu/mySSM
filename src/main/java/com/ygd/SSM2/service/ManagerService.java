@@ -21,4 +21,8 @@ public interface ManagerService {
 	public List<Manager> getManagerList(Integer pageNum,Integer pageSize,String serach);
 	
 	public Boolean getValidateLogin(String manName,String manPassword);
+	
+	public Integer getValidateName(String manName,Integer manId);
+	
+	public Manager getManager(Integer manId);
 }

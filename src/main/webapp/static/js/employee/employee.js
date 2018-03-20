@@ -213,39 +213,49 @@ $(function() {
 	
 	//批量删除
 	$("#deleEmp").on("click",function(){
+		
+		var count = $(".check_item:checked").length;
+		
 		var empNames = "";
 		
-		$.each($(".check_item:checked"),function(){
-			empNames += $(this).parents("tr").find("td:eq(2)").text()+",";
-		})
-		
-		empNames = empNames.substring(0,empNames.length-1);
-		
-		if(confirm("确定要删除【"+empNames+"】吗？")){
-			
-			var empIds = "";
+		if(count>0){
 			
 			$.each($(".check_item:checked"),function(){
-				empIds += $(this).parents("tr").attr("emp_id")+"-";
+				empNames += $(this).parents("tr").find("td:eq(2)").text()+",";
 			})
 			
-			empIds = empIds.substring(0,empIds.length-1);
+			empNames = empNames.substring(0,empNames.length-1);
 			
-			$.ajax({
-				url	:	unit.rootUrl+"/Employee/deleteEmp/"+empIds,
-				type : "delete",
-				success : function(result){
-					if(result.code == 0){
-						alert(result.msg);
-						
-						//刷新当前页
-						to_page(currentPage);
-					}else{
-						alert(result.msg);
+			if(confirm("确定要删除【"+empNames+"】吗？")){
+				
+				var empIds = "";
+				
+				$.each($(".check_item:checked"),function(){
+					empIds += $(this).parents("tr").attr("emp_id")+"-";
+				})
+				
+				empIds = empIds.substring(0,empIds.length-1);
+				
+				$.ajax({
+					url	:	unit.rootUrl+"/Employee/deleteEmp/"+empIds,
+					type : "delete",
+					success : function(result){
+						if(result.code == 0){
+							alert(result.msg);
+							
+							//刷新当前页
+							to_page(currentPage);
+						}else{
+							alert(result.msg);
+						}
 					}
-				}
-			})
+				})
+			}
+			
+		}else{
+			alert("请勾选要删除的条目");
 		}
+		
 	})
 })
 

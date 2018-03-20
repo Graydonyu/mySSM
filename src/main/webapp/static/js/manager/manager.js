@@ -2,8 +2,8 @@
 var toatlRecord;
 // 当前页码
 var currentPage;
-// 部门id
-var depId;
+// 管理员id
+var manId;
 
 $(function() {
 	to_page(1);
@@ -13,21 +13,21 @@ $(function() {
 		to_page(1);
 	})
 
-	// 保存部门信息
-	$("#saveDep").on("click", function() {	
-		$("#addDepForm").submit();
+	// 保存管理员信息
+	$("#saveMan").on("click", function() {	
+		$("#addManForm").submit();
 	})
 
-	$("#addDepForm").validate({
+	$("#addManForm").validate({
 		submitHandler : function(form){
 			$.ajax({
-				url : unit.rootUrl + "/Dep/saveDep",
-				data : $("#addDepModal form").serialize(),
+				url : unit.rootUrl + "/Manager/addMana",
+				data : $("#addManModal form").serialize(),
 				type : "post",
 				success : function(result) {
 					if (result.code == 0) {
 						// 关闭模态框
-						$("#addDepModal").modal('toggle');
+						$("#addManModal").modal('toggle');
 
 						// 跳转到最后一页
 						// page只要大于最后一页就会自动查询最后一页
@@ -37,18 +37,32 @@ $(function() {
 			})
 		},
 		rules : {
-			depName : {
+			manName : {
 				required : true,
 				remote : {
-					url : unit.rootUrl+"/Dep/validDep",
+					url : unit.rootUrl+"/Manager/validaMana",
 					type : "get"
 				}
+			},
+			manPassword : {
+				 required: true
+			},
+			confirm_password : {
+				required: true,
+			    equalTo: "#addPassword1"
 			}
 		},
 		messages : {
-			depName : {
-				required : "请输入部门名",
-				remote : "部门名已存在"
+			manName : {
+				required : "请输入管理员名",
+				remote : "管理员名已存在"
+			},
+			manPassword : {
+				 required: "请输入密码"
+			},
+			confirm_password : {
+				required: "请再次输入密码",
+			    equalTo: "密码输入不一致！"
 			}
 		}
 	});
@@ -57,53 +71,52 @@ $(function() {
 	$("#check_all").on("click", function() {
 		$(".check_item").prop("checked", $(this).prop("checked"));
 	})
-	$("#dep_tbody").on("click", ".check_item", function() {
+	$("#man_tbody").on("click", ".check_item", function() {
 		var flag = $(".check_item:checked").length == $(".check_item").length;
 		$("#check_all").prop("checked", flag);
 
 	})
 
-	// 点击打开更新员工模态框
-	$("#dep_tbody").on("click",".edit_btn",function() {
+	// 点击打开更新管理员模态框
+	$("#man_tbody").on("click",".edit_btn",function() {
 		
-		$("#updateDepModal form")[0].reset();		
+		$("#updateManModal form")[0].reset();		
 
-		depId = $(this).parents("tr").attr("dep_id");
+		manId = $(this).parents("tr").attr("man_id");
 
-		// 获取到部门数据并显示到模态框上
+		// 获取到管理员数据并显示到模态框上
 		$.ajax({
-			url : unit.rootUrl + "/Dep/getDep/" + depId,
+			url : unit.rootUrl + "/Manager/getManager/" + manId,
 			type : "get",
 			success : function(result){
-				var dep = result.extend.dep;
+				var man = result.extend.man;
 				if (result.code == 0) {
-					$("#updateName").val(dep.depName);
+					$("#updateName").val(man.manName);
 				}
 			}
 		})
 
-		$("#updateDepModal").modal({
+		$("#updateManModal").modal({
 			backdrop : false
 		});
 	})
 
 	// 更新员工信息
-	$("#updateDep").on("click", function() {
-
-		$("#updateDepForm").submit();
+	$("#updateMan").on("click", function() {
+		$("#updateManForm").submit();
 
 	})
 	
-	$("#updateDepForm").validate({
+	$("#updateManForm").validate({
 		submitHandler : function(form){
 			$.ajax({
-				url : unit.rootUrl + "/Dep/updateDep/" + depId,
-				data : $("#updateDepModal form").serialize(),
+				url : unit.rootUrl + "/Manager/upMana/" + manId,
+				data : $("#updateManModal form").serialize(),
 				type : "put",
 				success : function(result) {
 					if (result.code == 0) { 
 						// 关闭模态框
-						$("#updateDepModal").modal('toggle'); 
+						$("#updateManModal").modal('toggle'); 
 
 						//刷新当前页
 						to_page(currentPage);
@@ -112,47 +125,61 @@ $(function() {
 			})
 		},
 		rules : {
-			depName : {
+			manName : {
 				required : true,
 				remote : {
-					url : unit.rootUrl+"/Dep/validDep",
+					url : unit.rootUrl+"/Manager/validaMana",
 					type : "get",
 					data : {
-						depId : function(){
-							return depId;
+						manId : function(){
+							return manId;
 						}
 					}
 				}
+			},
+			manPassword : {
+				 required: true
+			},
+			confirm_password : {
+				required: true,
+			    equalTo: "#updatePassword1"
 			}
 		},
 		messages : {
-			depName : {
-				required : "请输入部门名",
-				remote : "部门名已存在"
+			manName : {
+				required : "请输入管理员名",
+				remote : "管理员名已存在"
+			},
+			manPassword : {
+				 required: "请输入密码"
+			},
+			confirm_password : {
+				required: "请再次输入密码",
+			    equalTo: "密码输入不一致！"
 			}
 		}
 	});
 
-	// 点击打开新增员工模态框
-	$("#addDep").on("click", function() {
+	// 点击打开新增管理员模态框
+	$("#addMan").on("click", function() {
 		
-		$("#addDepModal form")[0].reset();
+		$("#addManModal form")[0].reset();
 
-		$("#addDepModal").modal({
+		$("#addManModal").modal({
 			backdrop : false
 		});
 	})
 	
-	//点击删除部门
-	$("#dep_tbody").on("click",".delete_btn",function(){
+	//点击删除管理员
+	$("#man_tbody").on("click",".delete_btn",function(){
 		
-		var depName = $(this).parents("tr").find("td:eq(2)").text();
+		var manName = $(this).parents("tr").find("td:eq(2)").text();
 		
-		if(confirm("是否删除" + depName + "？该部门下的员工也会被删除，请谨慎操作！")){
-			var depIds = $(this).parents("tr").attr("dep_id");
+		if(confirm("是否删除" + manName + "管理员？")){
+			var manIds = $(this).parents("tr").attr("man_id");
 			
 			$.ajax({
-				url	: unit.rootUrl + "/Dep/deleteDep/"+depIds,
+				url	: unit.rootUrl + "/Manager/deleteManas/"+manIds,
 				type : "delete",
 				success : function(result){
 					if(result.code == 0){
@@ -170,31 +197,33 @@ $(function() {
 	})
 	
 	//批量删除
-	$("#deleDep").on("click",function(){
+	$("#deleMan").on("click",function(){
 		
 		var count = $(".check_item:checked").length;
 		
-		var depNames = "";
+		var manNames = "";
 		
+		//判断选中个数
 		if(count>0){
+			
 			$.each($(".check_item:checked"),function(){
-				depNames += $(this).parents("tr").find("td:eq(2)").text()+",";
+				manNames += $(this).parents("tr").find("td:eq(2)").text()+",";
 			})
 			
-			depNames = depNames.substring(0,depNames.length-1);
+			manNames = manNames.substring(0,manNames.length-1);
 			
-			if(confirm("确定要删除【"+depNames+"】吗？部门下的员工也会被删除，请谨慎操作！")){
+			if(confirm("确定要删除【"+manNames+"】管理员吗？")){
 				
-				var depIds = "";
+				var manIds = "";
 				
 				$.each($(".check_item:checked"),function(){
-					depIds += $(this).parents("tr").attr("dep_id")+"-";
+					manIds += $(this).parents("tr").attr("man_id")+"-";
 				})
 				
-				depIds = depIds.substring(0,depIds.length-1);
+				manIds = manIds.substring(0,manIds.length-1);
 				
 				$.ajax({
-					url	:	unit.rootUrl+"/Dep/deleteDep/"+depIds,
+					url	:	unit.rootUrl+"/Manager/deleteManas/"+manIds,
 					type : "delete",
 					success : function(result){
 						if(result.code == 0){
@@ -208,10 +237,13 @@ $(function() {
 					}
 				})
 			}
+			
 		}else{
-			alert("请勾选要删除的条目");
-		}		
-		
+			
+			alert("请删除要勾选的条目");
+			
+		}
+				
 	})
 })
 
@@ -226,7 +258,7 @@ function to_page(page) {
 	}
 	
 	$.ajax({
-		url : unit.rootUrl + "/Dep/depList",
+		url : unit.rootUrl + "/Manager/list",
 		data : data,
 		type : "get",
 		success : function(result) {
@@ -342,31 +374,31 @@ function build_page_msg(result) {
 
 // 解析数据填充表格
 function build_table_data(result) {
-	$("#dep_tbody").empty();
+	$("#man_tbody").empty();
 	
-	var deps = result.extend.pageInfo.list;
+	var mans = result.extend.pageInfo.list;
 
-	$.each(deps, function(index, item) {
+	$.each(mans, function(index, item) {
 		
 		var checkboxTd = $("<td><input type='checkbox' class='check_item'/></td>").attr("class",
 				"text-center");
 
-		var depIdTd = $("<td></td>").append(item.depId).attr("class",
+		var manIdTd = $("<td></td>").append(item.manId).attr("class",
 				"text-center");
-		var depNameTd = $("<td></td>").append(item.depName).attr("class",
+		var manNameTd = $("<td></td>").append(item.manName).attr("class",
 				"text-center");
-		var empSizeTd = $("<td></td>").append(item.empSize+"人").attr("class",
+		var manLevelTd = $("<td></td>").append(item.manLevel).attr("class",
 		"text-center");
-		var depEdit = $("<button></button>").append("编辑").attr("class",
+		var manEdit = $("<button></button>").append("编辑").attr("class",
 				"btn btn-info btn-sm edit_btn");
-		var depDel = $("<button></button>").append("删除").attr("class",
+		var manDel = $("<button></button>").append("删除").attr("class",
 				"btn btn-danger btn-sm delete_btn");
-		var depButTd = $("<td></td>").append(depEdit).append("&nbsp;").append(
-				depDel).attr("class", "text-center");
+		var manButTd = $("<td></td>").append(manEdit).append("&nbsp;").append(
+				manDel).attr("class", "text-center");
 
-		$("<tr></tr>").append(checkboxTd).append(depIdTd).append(depNameTd)
-				.append(empSizeTd).append(depButTd).attr("dep_id", item.depId).appendTo(
-						"#dep_tbody");
+		$("<tr></tr>").append(checkboxTd).append(manIdTd).append(manNameTd)
+				.append(manLevelTd).append(manButTd).attr("man_id", item.manId).appendTo(
+						"#man_tbody");
 
 	})
 }

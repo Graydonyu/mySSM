@@ -8,6 +8,8 @@ package com.ygd.SSM2.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,11 +40,15 @@ public class ManagerController {
 	*/  
 	@ResponseBody
 	@RequestMapping(value = "/login",method = RequestMethod.POST)
-	public Msg login(@RequestParam(value = "manName")String manName,@RequestParam(value = "manName")String manPassword){
+	public Msg login(HttpServletRequest request,@RequestParam(value = "manName")String manName,
+			@RequestParam(value = "manPassword")String manPassword){
 		
 		Boolean login = managerService.getValidateLogin(manName, manPassword);
 		
 		if(login){
+			request.getSession().setAttribute("manName", manName);
+			request.getSession().setMaxInactiveInterval(20);
+			
 			return Msg.success();
 		}else{
 			return Msg.fail();
@@ -80,7 +86,7 @@ public class ManagerController {
 	* @throws  
 	*/  
 	@ResponseBody
-	@RequestMapping(value = "/upMana",method = RequestMethod.PUT)
+	@RequestMapping(value = "/upMana/{manId}",method = RequestMethod.PUT)
 	public Msg updateManager(Manager manager){
 		
 		managerService.updateManager(manager);
@@ -134,4 +140,42 @@ public class ManagerController {
 		
 		return Msg.success();
 	}
+	
+	/**  
+	* @Title: validaMana  
+	* @Description: 查询管理员名是否重复
+	* @param manName
+	* @param manId
+	* @return Boolean 返回类型   
+	*/  
+	@ResponseBody
+	@RequestMapping(value = "/validaMana",method=RequestMethod.GET)
+	public Boolean validaMana(@RequestParam(value = "manName")String manName,
+			@RequestParam(value = "manId",required = false)Integer manId){
+		
+		//查询重复记录数
+		int count = managerService.getValidateName(manName, manId);
+		
+		if(count<1){
+			return true;
+		}else{
+			return false;
+		}
+					
+	}
+	
+	/**  
+	* @Title: getManager  
+	* @Description: 获取单个管理员信息
+	* @param manId
+	* @return Msg 返回类型   
+	*/  
+	@ResponseBody
+	@RequestMapping(value = "/getManager/{manId}",method = RequestMethod.GET)
+	public Msg getManager(@PathVariable(value = "manId")Integer manId){
+		
+		Manager man = managerService.getManager(manId);
+		
+		return Msg.success().add("man", man);	
+	} 
 }

@@ -48,21 +48,21 @@
 				<div class="modal-body">
 					<form class="form-horizontal" id="updateEmpForm">
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+							<label for="updateName" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-10">
 								<input type="name" class="form-control" id="updateName" name="empName"
 									autofocus="autofocus" placeholder="Name"/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+							<label for="updateEmail" class="col-sm-2 control-label">Email</label>
 							<div class="col-sm-10">
 								<input type="email" class="form-control" id="updateEmail" name="empEmail"
 									placeholder="Email@QQ.com">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">Gender</label>
+							<label class="col-sm-2 control-label">Gender</label>
 							<div class="col-sm-10">
 								<label class="radio-inline"> <input type="radio"
 									name="empSex" id="updateRadio1" value="男">
@@ -74,7 +74,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">Department</label>
+							<label for="updateDepOptions" class="col-sm-2 control-label">Department</label>
 							<div class="col-sm-4">
 								<select class="form-control" id="updateDepOptions" name="depId">
 								</select>
@@ -105,21 +105,21 @@
 				<div class="modal-body">
 					<form class="form-horizontal" id="addEmpForm">
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+							<label for="inputName" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-10">
 								<input type="name" class="form-control required" id="inputName" name="empName"
 									autofocus="autofocus" placeholder="Name"/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+							<label for="inputEmail" class="col-sm-2 control-label">Email</label>
 							<div class="col-sm-10">
 								<input type="email" class="form-control required" id="inputEmail" name="empEmail"
 									placeholder="Email@QQ.com">
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">Gender</label>
+							<label class="col-sm-2 control-label">Gender</label>
 							<div class="col-sm-10">
 								<label class="radio-inline"> <input type="radio"
 									name="empSex" id="inlineRadio1" value="男" checked="checked">
@@ -131,7 +131,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="inputEmail3" class="col-sm-2 control-label">Department</label>
+							<label for="depOptions" class="col-sm-2 control-label">Department</label>
 							<div class="col-sm-4">
 								<select class="form-control" id="depOptions" name="depId">
 								</select>

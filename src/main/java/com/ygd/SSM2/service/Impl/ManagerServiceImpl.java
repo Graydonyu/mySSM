@@ -7,6 +7,7 @@ package com.ygd.SSM2.service.Impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -92,6 +93,48 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public void deleteManager(Integer manId) {
 		managerMapper.deleteByPrimaryKey(manId);
+	}
+
+	/**  
+	* @Title: getValidateName  
+	* @Description: 远程验证管理员名称是否重复
+	* @param manName
+	* @param manId
+	* @return
+	* @see com.ygd.SSM2.service.ManagerService#getValidateName(java.lang.String, java.lang.Integer)  
+	*/
+	@Override
+	public Integer getValidateName(String manName, Integer manId) {
+		
+		Example example = new Example(Manager.class);
+		
+		Criteria criteria = example.createCriteria();
+		
+		criteria.andEqualTo("manName", manName);
+		
+		//如果是更新则需要判断除本条外
+		if(manId != null){
+			criteria.andNotEqualTo("manId", manId);
+		}
+		
+		int count = managerMapper.selectCountByExample(example);
+		
+		return count;
+	}
+
+	/**  
+	* @Title: getManager  
+	* @Description: 获取单个管理员信息
+	* @param manId
+	* @return
+	* @see com.ygd.SSM2.service.ManagerService#getManager(java.lang.Integer)  
+	*/
+	@Override
+	public Manager getManager(Integer manId) {
+
+		Manager mana = managerMapper.selectByPrimaryKey(manId);
+		
+		return mana;
 	}
 
 }
