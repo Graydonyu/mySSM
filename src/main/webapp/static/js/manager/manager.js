@@ -36,6 +36,8 @@ $(function() {
 						// 跳转到最后一页
 						// page只要大于最后一页就会自动查询最后一页
 						to_page(toatlRecord);
+					}else{
+						$('.alert').html('权限不足！').addClass('alert-warning text-center').show().delay(1000).fadeOut();
 					};
 				}
 			})
@@ -99,6 +101,9 @@ $(function() {
 				var man = result.extend.man;
 				if (result.code == 0) {
 					$("#updateName").val(man.manName);
+					$("#manOptions").val(man.manLevel);
+				}else{
+					$('.alert').html('权限不足！').addClass('alert-warning text-center').show().delay(1000).fadeOut();
 				}
 			}
 		})
@@ -130,6 +135,8 @@ $(function() {
 
 						//刷新当前页
 						to_page(currentPage);
+					}else{
+						$('.alert').html('权限不足！').addClass('alert-warning text-center').show().delay(1000).fadeOut();
 					}
 				}
 			})
@@ -201,7 +208,7 @@ $(function() {
 						//刷新当前页
 						to_page(currentPage);
 					}else{
-						alert(result.msg);
+						$('.alert').html('权限不足！').addClass('alert-warning text-center').show().delay(1000).fadeOut();
 					}
 				}
 			})
@@ -248,7 +255,7 @@ $(function() {
 							//刷新当前页
 							to_page(currentPage);
 						}else{
-							alert(result.msg);
+							$('.alert').html('权限不足！').addClass('alert-warning text-center').show().delay(1000).fadeOut();
 						}
 					}
 				})

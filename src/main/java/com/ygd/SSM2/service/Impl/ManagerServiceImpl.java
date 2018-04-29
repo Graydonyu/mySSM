@@ -7,6 +7,8 @@ package com.ygd.SSM2.service.Impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,7 +72,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public Boolean getValidateLogin(String manName, String manPassword) {
+	public Boolean getValidateLogin(HttpServletRequest request,String manName, String manPassword) {
 		
 		String md5Pw = MD5.md5(manPassword);
 		
@@ -81,13 +83,16 @@ public class ManagerServiceImpl implements ManagerService {
 		criteria.andEqualTo("manName", manName);
 		criteria.andEqualTo("manPassword", md5Pw);
 		
-		int count = managerMapper.selectCountByExample(example);
-		System.out.println("count="+count);
+		List<Manager> mans = managerMapper.selectByExample(example);
 		
-		if(count != 1){
-			return false;
+		if(mans.size() == 1){
+			//将用户存入session，并设置保存最大时长
+			Manager man = mans.get(0);
+			request.getSession().setAttribute("man", man);
+			request.getSession().setMaxInactiveInterval(30*60); 
+			return true;		
 		}else{
-			return true;
+			return false;
 		}
 	}
 

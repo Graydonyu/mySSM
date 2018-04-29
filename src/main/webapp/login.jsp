@@ -76,6 +76,20 @@ input[type="text"], input[type="password"] {
 			从案例学知识，来做一个登录，注册页面
 			用到font-awesome 4.3.0；bootstrap 3.3.0；jQuery Validate
 		-->
+	<%
+         String username = "";
+         String password = "";
+         //获取当前站点的所有Cookie
+         Cookie[] cookies = request.getCookies();
+         for (int i = 0; i < cookies.length; i++) {//对cookies中的数据进行遍历，找到用户名、密码的数据
+        	 System.out.println("???="+cookies[i].getName());
+             if ("username".equals(cookies[i].getName())) {
+                 username = cookies[i].getValue();
+             } else if ("password".equals(cookies[i].getName())) {
+                 password = cookies[i].getValue();
+             }
+         }
+	%>
 	<div class="container">
 		<div class="form row">
 			<form class="form-horizontal col-sm-offset-2 col-md-offset-2"
@@ -85,18 +99,18 @@ input[type="text"], input[type="password"] {
 					<div class="form-group">
 						<i class="fa fa-user fa-lg"></i> <input
 							class="form-control required" type="text" placeholder="ManagerName"
-							name="manName" autofocus="autofocus" maxlength="20" />
+							name="manName" autofocus="autofocus" value="<%=password %>" maxlength="20" />
 					</div>
 					<div class="form-group">
 						<i class="fa fa-lock fa-lg"></i> <input
 							class="form-control required" type="password"
-							placeholder="Password" name="manPassword" maxlength="20" />
+							placeholder="Password" name="manPassword" value="<%=username %>" maxlength="20" />
 					</div>
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<label class="checkbox"> <input type="checkbox"
-							name="remember" value="1" /> Remember me
+							name="rememberme" value="1" /> Remember me
 						</label>
-					</div>
+					</div> -->
 					<div class="form-group">
 						<input type="button" class="btn btn-success pull-right"
 							value="Login" id="loginButton"/>

@@ -23,9 +23,10 @@ $().ready(function() {
 			type : "post",
 			success : function(result) {
 				if(result.code == 0){
+					
 					window.location.href = unit.rootUrl+"/employee.jsp";
 				}else{
-					$('.alert').html('登录失败，请检查用户名和密码！').addClass('alert-warning').show().delay(1500).fadeOut();
+					$('.alert').html('登录失败，请检查用户名和密码！').addClass('alert-warning text-center').show().delay(1500).fadeOut();
 				}
 			}
 		})

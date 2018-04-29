@@ -105,14 +105,17 @@
 			</div>
 			<div class="col-md-4 text-right">
 				<ul class="list-inline" style="margin-top:15px;">
-  					<li><h4><b>manager</b></h4></li>
-  					<li><a>退出</a></li>
+  					<li><h4><b>${sessionScope.man.manName}</b></h4></li>
+  					<li><a href="${APP_PATH }/Manager/loginOut">退出</a></li>
 				</ul>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-				<a href="${APP_PATH }/employee.jsp"><button type="button" class="btn text-primary">员工管理</button></a>	
+			<ul class="list-inline" style="margin-top:15px;">
+				<li><a href="${APP_PATH }/employee.jsp"><button type="button" class="btn text-primary">员工管理</button></a></li>
+				<li><a href="${APP_PATH }/manager.jsp"><button type="button" class="btn text-primary">权限管理</button></a></li>	
+			</ul>
 			</div>
 			<div class="col-md-8 text-right">
 				<form class="form-inline">				

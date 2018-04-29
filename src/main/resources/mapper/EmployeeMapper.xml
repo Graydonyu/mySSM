@@ -21,7 +21,7 @@
   </sql>
   
   <sql id="search">
-  	<if test="_parameter != ' ' and _parameter != null">
+  	<if test='_parameter != " " and _parameter != null'>
   		concat(emp_name,dep_name,emp_sex,emp_email) like '%${_parameter}%'
   	</if>
   </sql>

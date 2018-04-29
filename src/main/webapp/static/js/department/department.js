@@ -25,6 +25,9 @@ $(function() {
 				data : $("#addDepModal form").serialize(),
 				type : "post",
 				success : function(result) {
+					
+					unit.isLogin(result);
+					
 					if (result.code == 0) {
 						// 关闭模态框
 						$("#addDepModal").modal('toggle');
@@ -75,6 +78,9 @@ $(function() {
 			url : unit.rootUrl + "/Dep/getDep/" + depId,
 			type : "get",
 			success : function(result){
+				
+				unit.isLogin(result);
+				
 				var dep = result.extend.dep;
 				if (result.code == 0) {
 					$("#updateName").val(dep.depName);
@@ -101,6 +107,9 @@ $(function() {
 				data : $("#updateDepModal form").serialize(),
 				type : "put",
 				success : function(result) {
+					
+					unit.isLogin(result);
+					
 					if (result.code == 0) { 
 						// 关闭模态框
 						$("#updateDepModal").modal('toggle'); 
@@ -155,6 +164,9 @@ $(function() {
 				url	: unit.rootUrl + "/Dep/deleteDep/"+depIds,
 				type : "delete",
 				success : function(result){
+					
+					unit.isLogin(result);
+					
 					if(result.code == 0){
 						alert(result.msg);
 						
@@ -197,6 +209,9 @@ $(function() {
 					url	:	unit.rootUrl+"/Dep/deleteDep/"+depIds,
 					type : "delete",
 					success : function(result){
+						
+						unit.isLogin(result);
+						
 						if(result.code == 0){
 							alert(result.msg);
 							
@@ -249,6 +264,8 @@ function getDepOptions(ele) {
 		url : unit.rootUrl + "/Dep/deps",
 		type : "get",
 		success : function(result) {
+			
+			unit.isLogin(result);
 
 			$(ele).empty();
 			

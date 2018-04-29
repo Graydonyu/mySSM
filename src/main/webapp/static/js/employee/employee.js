@@ -25,6 +25,9 @@ $(function() {
 				data : $("#addEmpModal form").serialize(),
 				type : "post",
 				success : function(result) {
+					
+					unit.isLogin(result);
+					
 					if (result.code == 0) {
 						// 关闭模态框
 						$("#addEmpModal").modal('toggle');
@@ -96,6 +99,10 @@ $(function() {
 		})
 				
 		$.when(getDeps,getEmpData).done(function(result1,result2){
+			
+			unit.isLogin(result1);
+			unit.isLogin(result2);
+			
 			$("#updateDepOptions").empty();
 					
 			var deps = result1[0].extend.deps;
@@ -134,6 +141,9 @@ $(function() {
 				data : $("#updateEmpModal form").serialize(),
 				type : "put",
 				success : function(result) {
+					
+					unit.isLogin(result);
+					
 					if (result.code == 0) { 
 						// 关闭模态框
 						$("#updateEmpModal").modal('toggle'); 
@@ -197,6 +207,9 @@ $(function() {
 				url	: unit.rootUrl + "/Employee/deleteEmp/"+empIds,
 				type : "delete",
 				success : function(result){
+					
+					unit.isLogin(result);
+					
 					if(result.code == 0){
 						alert(result.msg);
 						
@@ -240,6 +253,9 @@ $(function() {
 					url	:	unit.rootUrl+"/Employee/deleteEmp/"+empIds,
 					type : "delete",
 					success : function(result){
+						
+						unit.isLogin(result);
+						
 						if(result.code == 0){
 							alert(result.msg);
 							
@@ -292,6 +308,8 @@ function getDepOptions(ele) {
 		url : unit.rootUrl + "/Dep/deps",
 		type : "get",
 		success : function(result) {
+			
+			unit.isLogin(result);
 
 			$(ele).empty();
 			

@@ -151,8 +151,8 @@
 			</div>
 			<div class="col-md-4 text-right">
 				<ul class="list-inline" style="margin-top:15px;">
-  					<li><h4><b>manager</b></h4></li>
-  					<li><a>退出</a></li>
+  					<li><h4><b>${sessionScope.man.manName}</b></h4></li>
+  					<li><a href="${APP_PATH }/Manager/loginOut">退出</a></li>
 				</ul>
 			</div>
 		</div>

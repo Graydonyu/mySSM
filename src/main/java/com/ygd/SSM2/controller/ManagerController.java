@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,30 +31,42 @@ public class ManagerController {
 	@Autowired
 	ManagerService managerService;
 	
+
 	/**  
 	* @Title: login  
 	* @Description: 登陆验证
+	* @param request
+	* @param response
 	* @param manName
 	* @param manPassword
-	* @return Msg 返回类型    
-	* @throws  
+	* @param rememberme
+	* @return Msg 返回类型   
 	*/  
 	@ResponseBody
 	@RequestMapping(value = "/login",method = RequestMethod.POST)
-	public Msg login(HttpServletRequest request,@RequestParam(value = "manName")String manName,
-			@RequestParam(value = "manPassword")String manPassword){
+	public Msg login(HttpServletRequest request,
+			@RequestParam(value = "manName")String manName,
+				@RequestParam(value = "manPassword")String manPassword){
 		
-		Boolean login = managerService.getValidateLogin(manName, manPassword);
+		Boolean login = managerService.getValidateLogin(request, manName, manPassword);
 		
-		if(login){
-			request.getSession().setAttribute("manName", manName);
-			request.getSession().setMaxInactiveInterval(20);
-			
+		if(login){          			
 			return Msg.success();
 		}else{
 			return Msg.fail();
 		}
 		
+	}
+	
+	@RequestMapping(value = "/loginOut",method = RequestMethod.GET)
+	public String loginOut(HttpSession session){
+		
+		if(session != null && session.getAttribute("man") != null){
+			session.removeAttribute("manName");
+		    session.invalidate();
+		}
+		
+		return "redirect:/login.jsp";	
 	}
 	
 	/**  
@@ -67,7 +80,8 @@ public class ManagerController {
 	*/  
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public Msg managerListByPage(@RequestParam(value = "pageNum",defaultValue ="1")Integer pageNum,
+	public Msg managerListByPage(HttpServletRequest request,
+			@RequestParam(value = "pageNum",defaultValue ="1")Integer pageNum,
 			@RequestParam(value = "pageSize",defaultValue ="10")Integer pageSize,
 			@RequestParam(value = "search",required = false)String search){
 		
@@ -87,7 +101,16 @@ public class ManagerController {
 	*/  
 	@ResponseBody
 	@RequestMapping(value = "/upMana/{manId}",method = RequestMethod.PUT)
-	public Msg updateManager(Manager manager){
+	public Msg updateManager(HttpServletRequest request, Manager manager,@PathVariable Integer manId){
+		
+		//被修改者
+		Manager manager1 = managerService.getManager(manId);
+		//当前登录用户
+		Manager manager2 = (Manager) request.getSession().getAttribute("man");
+		
+		if(Integer.parseInt(manager1.getManLevel()) >= Integer.parseInt(manager2.getManLevel())){
+			return Msg.fail();
+		}
 		
 		managerService.updateManager(manager);
 		
