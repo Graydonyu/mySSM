@@ -100,6 +100,10 @@ $(function() {
 				
 				var man = result.extend.man;
 				if (result.code == 0) {
+					$("#updateManModal").modal({
+						backdrop : false
+					});
+					
 					$("#updateName").val(man.manName);
 					$("#manOptions").val(man.manLevel);
 				}else{
@@ -108,9 +112,6 @@ $(function() {
 			}
 		})
 
-		$("#updateManModal").modal({
-			backdrop : false
-		});
 	})
 
 	// 更新员工信息

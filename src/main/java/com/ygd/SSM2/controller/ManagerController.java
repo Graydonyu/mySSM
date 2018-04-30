@@ -103,12 +103,19 @@ public class ManagerController {
 	@RequestMapping(value = "/upMana/{manId}",method = RequestMethod.PUT)
 	public Msg updateManager(HttpServletRequest request, Manager manager,@PathVariable Integer manId){
 		
-		//被修改者
-		Manager manager1 = managerService.getManager(manId);
 		//当前登录用户
 		Manager manager2 = (Manager) request.getSession().getAttribute("man");
 		
-		if(Integer.parseInt(manager1.getManLevel()) >= Integer.parseInt(manager2.getManLevel())){
+		if(manId != manager2.getManId()){
+			//被修改者
+			Manager manager1 = managerService.getManager(manId);
+			
+			if(Integer.parseInt(manager1.getManLevel()) >= Integer.parseInt(manager2.getManLevel())){
+				return Msg.fail();
+			}
+		}
+		
+		if(Integer.parseInt(manager.getManLevel()) >= Integer.parseInt(manager2.getManLevel())){
 			return Msg.fail();
 		}
 		
@@ -126,7 +133,14 @@ public class ManagerController {
 	*/  
 	@ResponseBody
 	@RequestMapping(value = "/addMana",method = RequestMethod.POST)
-	public Msg insertManager(Manager manager){
+	public Msg insertManager(HttpServletRequest request, Manager manager){
+		
+		//当前登录用户
+		Manager manager1 = (Manager) request.getSession().getAttribute("man");				
+					
+		if(Integer.parseInt(manager.getManLevel()) >= Integer.parseInt(manager1.getManLevel())){
+			return Msg.fail();
+		}
 		
 		managerService.insertManager(manager);
 		
@@ -142,7 +156,12 @@ public class ManagerController {
 	*/  
 	@ResponseBody
 	@RequestMapping(value = "/deleteManas/{ids}",method = RequestMethod.DELETE)
-	public Msg deleteManager(@PathVariable(value = "ids")String ids){
+	public Msg deleteManager(HttpServletRequest request, @PathVariable(value = "ids")String ids){
+		
+		HttpSession session = request.getSession();
+		
+		//当前登录用户
+		Manager manager2 = (Manager) session.getAttribute("man");
 		
 		if(ids.contains("-")){
 			String[] mana_ids = ids.split("-"); 
@@ -150,13 +169,28 @@ public class ManagerController {
 			
 			for(String mana_id:mana_ids){
 				int manaId =  Integer.parseInt(mana_id);
+				
+				//被删除者
+				Manager manager1 = managerService.getManager(manaId);
+					
+				if(Integer.parseInt(manager1.getManLevel()) >= Integer.parseInt(manager2.getManLevel())){
+					return Msg.fail();
+				}					
+				
 				list.add(manaId);
 			}
 			
 			managerService.deleteManagerBatch(list);
 			
 		}else{
-			int manaId = Integer.parseInt(ids);
+			int manaId = Integer.parseInt(ids);			
+
+			//被删除者
+			Manager manager1 = managerService.getManager(manaId);
+						
+			if(Integer.parseInt(manager1.getManLevel()) >= Integer.parseInt(manager2.getManLevel())){
+				return Msg.fail();
+			}
 			
 			managerService.deleteManager(manaId);
 		}
@@ -195,7 +229,19 @@ public class ManagerController {
 	*/  
 	@ResponseBody
 	@RequestMapping(value = "/getManager/{manId}",method = RequestMethod.GET)
-	public Msg getManager(@PathVariable(value = "manId")Integer manId){
+	public Msg getManager(HttpServletRequest request, @PathVariable(value = "manId")Integer manId){
+		
+		//当前登录用户
+		Manager manager2 = (Manager) request.getSession().getAttribute("man");
+				
+		if(manId != manager2.getManId()){
+			//被修改者
+			Manager manager1 = managerService.getManager(manId);
+					
+			if(Integer.parseInt(manager1.getManLevel()) >= Integer.parseInt(manager2.getManLevel())){
+				return Msg.fail();
+			}
+		}
 		
 		Manager man = managerService.getManager(manId);
 		

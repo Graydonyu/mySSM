@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ygd.SSM2.entity.Manager;
+
 @Configuration
 public class LoginInterceptor implements HandlerInterceptor {
 
@@ -31,11 +33,24 @@ public class LoginInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		String manName = (String) request.getSession().getAttribute("manName");
+		 Manager man = (Manager) request.getSession().getAttribute("man");
+		 
+		 if(man != null){
+			 String manName = man.getManName();
 
-		// 管理员未登录，拦截除登录外的所有请求
-		if (StringUtils.isBlank(manName)) {
-			
+			// 管理员未登录，拦截除登录外的所有请求
+			if (StringUtils.isBlank(manName)) {
+					
+				//根据请求头判断是否为ajax请求，如果是则返回json让前端跳转
+				String XRequested = request.getHeader("X-Requested-With");
+
+				if ("XMLHttpRequest".equals(XRequested)) {
+					response.getWriter().write("noLogin");
+				}
+
+				return false;
+			}
+		 }else{
 			//根据请求头判断是否为ajax请求，如果是则返回json让前端跳转
 			String XRequested = request.getHeader("X-Requested-With");
 
@@ -44,7 +59,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			}
 
 			return false;
-		}
+		 }
 
 		// 已登录，放行
 		return true;
